@@ -1,17 +1,24 @@
 import React, { Component, createContext } from 'react';
+import * as API from '../services/authService';
+import { withRouter } from 'react-router-dom';
 
 const AuthContext = createContext();
 
-export default class AuthContextProvider extends Component {
+class AuthContextProvider extends Component {
   static Consumer = AuthContext.Consumer;
   state = {
     isAuthenticated: false,
     user: null
   };
 
-  onSignIn = user => {
-    console.log('aaaauser', user);
-    this.setState({ isAuthenticated: true, user });
+  onSignUp = credentials => {
+
+    API.userCreate(credentials);
+    //     .then(user => {
+    //       this.setState({ isAuthenticated: true, user });
+    //       // this.props.history.push('/');
+    //     })
+    //     .catch(err => console.error(err));
   };
 
   onSignOut = () => () => this.setState({ isAuthenticated: false, user: null });
@@ -24,7 +31,7 @@ export default class AuthContextProvider extends Component {
         value={{
           isAuthenticated,
           user,
-          onSignIn: this.onSignIn,
+          onSignUp: this.onSignUp,
           onSignOut: this.onSignOut
         }}
       >
@@ -33,3 +40,6 @@ export default class AuthContextProvider extends Component {
     );
   }
 }
+
+export default withRouter(AuthContextProvider);
+
