@@ -5,15 +5,14 @@ import AuthContext from '../../contexts/auth';
 import { PageWrapper } from './styles';
 import SignUpView from './SignUpView';
 
-const SignUp = ({ history }) => (
+const SignUp = () => (
   <PageWrapper>
     <AuthContext.Consumer>
-      {({ onSignIn }) => (
+      {({ onSignUp }) => (
         <Formik
           initialValues={{ name: '', email: '', password: '', confirmPassword: '' }}
           onSubmit={values => {
-            onSignIn(values);
-            history.push('/');
+            onSignUp(values);
           }}
           validationSchema={signUpValidation}
         >

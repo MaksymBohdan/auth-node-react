@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Main from './Main/Main';
 import SignIn from './SignIn/SignIn';
-import SignUp from './SignUp/SignUp';
+import SignUp from './SignUp/SignUpContainer';
 import AuthContext from '../contexts/auth';
 
 function App() {
