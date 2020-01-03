@@ -1,5 +1,5 @@
 import React, { Component, createContext } from 'react';
-import * as API from '../services/authService';
+import { userCreate } from '../services/authService';
 import { withRouter } from 'react-router-dom';
 
 const AuthContext = createContext();
@@ -12,13 +12,13 @@ class AuthContextProvider extends Component {
   };
 
   onSignUp = credentials => {
-
-    API.userCreate(credentials);
-    //     .then(user => {
-    //       this.setState({ isAuthenticated: true, user });
-    //       // this.props.history.push('/');
-    //     })
-    //     .catch(err => console.error(err));
+    userCreate(credentials)
+      .then(user => {
+        this.setState({ isAuthenticated: true, user }, () =>
+          this.props.history.push('/')
+        );
+      })
+      .catch(err => console.error(err));
   };
 
   onSignOut = () => () => this.setState({ isAuthenticated: false, user: null });
@@ -42,4 +42,3 @@ class AuthContextProvider extends Component {
 }
 
 export default withRouter(AuthContextProvider);
-
