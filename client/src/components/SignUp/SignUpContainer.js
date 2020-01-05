@@ -5,15 +5,22 @@ import AuthContext from '../../contexts/auth';
 import { PageWrapper } from './styles';
 import SignUpView from './SignUpView';
 
+const initialFormValues = {
+  name: '',
+  email: '',
+  password: '',
+  confirmPassword: ''
+};
+
 const SignUp = () => (
   <PageWrapper>
     <AuthContext.Consumer>
       {({ onSignUp }) => (
         <Formik
-          initialValues={{ name: '', email: '', password: '', confirmPassword: '' }}
-          onSubmit={values => {
-            onSignUp(values);
-          }}
+          initialValues={initialFormValues}
+          onSubmit={(value, { setSubmitting }) =>
+            onSignUp(value, setSubmitting)
+          }
           validationSchema={signUpValidation}
         >
           {({ isSubmitting }) => <SignUpView isSubmitting={isSubmitting} />}

@@ -8,7 +8,8 @@ const signupRoute = (req, res) => {
   Person.find({ email })
     .exec()
     .then(person => {
-      if (person.length > 0) return res.status(409).json({ status: 'person exists' });
+      if (person.length > 0)
+        return res.status(409).json({ status: 'Person already exists' });
 
       bcrypt.hash(password, 10, (err, hash) => {
         if (err) return res.status(500).json({ error: err });
