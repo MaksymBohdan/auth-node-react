@@ -1,6 +1,14 @@
-const Person = require('../models/person');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const Person = require('../models/person');
+const confiq = require('../../config');
+
+const createToken = params => {
+  return jwt.sign(params, confiq.secretKey, {
+    expiresIn: '1h'
+  });
+};
 
 const signupRoute = (req, res) => {
   const { name, email, password } = req.body;
@@ -23,8 +31,20 @@ const signupRoute = (req, res) => {
 
         person
           .save()
-          .then(newPerson => res.status(201).json({ person: newPerson }))
-          .catch(err => res.status(500).json({ error: err }));
+          .then(newPerson => {
+            const {
+              _doc: { email, name, _id }
+            } = newPerson;
+
+            res.status(201).json({
+              person: { email, name, _id },
+              token: createToken({ email, name, _id })
+            });
+          })
+          .catch(err => {
+            console.log(err);
+            return res.status(500).json({ error: err });
+          });
       });
     });
 };

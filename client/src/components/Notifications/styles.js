@@ -13,7 +13,7 @@ const Container = styled.ul`
 const Note = styled.li`
   color: #d8000c;
   background-color: #ffd2d2;
-  padding: 20px 10px;
+  padding: 30px 10px;
   margin: 10px;
   border-radius: 10px;
   font-weight: bold;
