@@ -4,16 +4,19 @@ import Main from './Main/Main';
 import SignIn from './SignIn/SignIn';
 import SignUp from './SignUp/SignUpContainer';
 import AuthContext from '../contexts/auth';
+import NotificationContext from '../contexts/notifications';
 
 function App() {
   return (
-    <AuthContext>
-      <Switch>
-        <Route exact path='/' component={Main} />
-        <Route path='/signin' component={SignIn} />
-        <Route path='/signup' component={SignUp} />
-      </Switch>
-    </AuthContext>
+    <NotificationContext>
+      <AuthContext>
+        <Switch>
+          <Route exact path="/" component={Main} />
+          <Route path="/signin" component={SignIn} />
+          <Route path="/signup" component={SignUp} />
+        </Switch>
+      </AuthContext>
+    </NotificationContext>
   );
 }
 
