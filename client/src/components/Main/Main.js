@@ -4,8 +4,8 @@ import AuthContext from '../../contexts/auth';
 const Main = () => {
   return (
     <AuthContext.Consumer>
-      {({ user, isAuthenticated }) =>
-        isAuthenticated ? <div>{user.name}</div> : <div>not authorazied</div>
+      {({ person }) =>
+        person ? <div>{person.name}</div> : <div>not authorazied</div>
       }
     </AuthContext.Consumer>
   );
