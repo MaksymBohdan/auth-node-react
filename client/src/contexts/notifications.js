@@ -44,7 +44,6 @@ class NotificationsContextProvider extends Component {
     return (
       <NotificationContext.Provider
         value={{
-          notifications,
           handleShowNotification: this.handleShowNotification
         }}
       >

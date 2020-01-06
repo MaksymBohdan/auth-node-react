@@ -1,7 +1,11 @@
 import React, { Component, createContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import { personCreate } from '../services/authService';
-import { saveToStorage, getFromStorage } from '../utils/localStorageUtils';
+import {
+  saveToStorage,
+  getFromStorage,
+  clearStorage
+} from '../utils/localStorageUtils';
 import { PERSON, TOKEN } from '../helpers/localStorageConstans';
 import { NotificationContext } from './notifications';
 
@@ -31,7 +35,10 @@ class AuthContextProvider extends Component {
       });
   };
 
-  onSignOut = () => () => this.setState({ person: null });
+  onSignOut = () => {
+    clearStorage();
+    this.setState({ person: null, token: null });
+  };
 
   render() {
     const { person, token } = this.state;
