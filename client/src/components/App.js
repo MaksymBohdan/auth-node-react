@@ -1,20 +1,41 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import Main from './Main/Main';
 import SignIn from './SignIn/SignIn';
 import SignUp from './SignUp/SignUpContainer';
 import AuthContext from '../contexts/auth';
 import NotificationContext from '../contexts/notifications';
+import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
 
 function App() {
   return (
     <NotificationContext>
       <AuthContext>
-        <Switch>
-          <Route exact path="/" component={Main} />
-          <Route path="/signin" component={SignIn} />
-          <Route path="/signup" component={SignUp} />
-        </Switch>
+        <AuthContext.Consumer>
+          {({ person }) => (
+            <Switch>
+              <ProtectedRoute
+                exact
+                path="/"
+                component={Main}
+                conditions={!person}
+                redirectTo="/signup"
+              />
+              <ProtectedRoute
+                path="/signin"
+                component={SignIn}
+                conditions={person}
+                redirectTo="/"
+              />
+              <ProtectedRoute
+                path="/signup"
+                component={SignUp}
+                conditions={person}
+                redirectTo="/"
+              />
+            </Switch>
+          )}
+        </AuthContext.Consumer>
       </AuthContext>
     </NotificationContext>
   );
