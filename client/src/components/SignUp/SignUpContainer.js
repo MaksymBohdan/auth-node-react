@@ -1,9 +1,9 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { signUpValidation } from '../../helpers/formValidators';
 import AuthContext from '../../contexts/auth';
-import { PageWrapper } from './styles';
 import SignUpView from './SignUpView';
+import { signUpValidation } from '../../helpers/formValidators';
+import { PageWrapper } from './styles';
 
 const initialFormValues = {
   name: '',

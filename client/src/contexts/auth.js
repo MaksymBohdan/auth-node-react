@@ -1,5 +1,4 @@
 import React, { Component, createContext } from 'react';
-import { withRouter } from 'react-router-dom';
 import { personCreate } from '../services/authService';
 import {
   saveToStorage,
@@ -27,7 +26,7 @@ class AuthContextProvider extends Component {
         saveToStorage(TOKEN, token);
         saveToStorage(PERSON, person);
 
-        this.setState({ person, token }, () => this.props.history.replace('/'));
+        this.setState({ person, token });
       })
       .catch(({ response }) => {
         this.context.handleShowNotification(response.data.status);
@@ -58,4 +57,4 @@ class AuthContextProvider extends Component {
   }
 }
 
-export default withRouter(AuthContextProvider);
+export default AuthContextProvider;
