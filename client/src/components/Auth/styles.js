@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Form, Field } from 'formik';
+import { Link } from 'react-router-dom';
 
 const PageWrapper = styled.section`
   width: 100%;
@@ -58,4 +59,22 @@ const StyledButton = styled.button`
   cursor: pointer;
 `;
 
-export { PageWrapper, FormTitle, StyledForm, StyledField, StyledButton, StyledInlineErrorMessage, StyledRow };
+const LinkArea = styled(Link)`
+  margin-top: 10px;
+  color: white;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export {
+  PageWrapper,
+  FormTitle,
+  StyledForm,
+  StyledField,
+  StyledButton,
+  StyledInlineErrorMessage,
+  StyledRow,
+  LinkArea
+};

@@ -1,5 +1,5 @@
 import React, { Component, createContext } from 'react';
-import { personCreate, personDelete } from '../services';
+import { personAuth, personDelete } from '../services';
 import {
   saveToStorage,
   getFromStorage,
@@ -20,8 +20,8 @@ class AuthContextProvider extends Component {
 
   static contextType = NotificationContext;
 
-  onSignUp = (credentials, setSubmitting) => {
-    personCreate(credentials)
+  onAuth = (credentials, isRegistration, setSubmitting) => {
+    personAuth(credentials, isRegistration)
       .then(({ person, token }) => {
         saveToStorage(TOKEN, token);
         saveToStorage(PERSON, person);
@@ -34,7 +34,7 @@ class AuthContextProvider extends Component {
       });
   };
 
-  clearData = () => {
+  clearAuthData = () => {
     clearStorage();
     this.setState({ person: null, token: null });
   };
@@ -42,7 +42,7 @@ class AuthContextProvider extends Component {
   onPersonDelete = token => {
     personDelete(token)
       .then(person => {
-        if (!person) this.clearData();
+        if (!person) this.clearAuthData();
       })
       .catch(({ response }) => {
         this.context.handleShowNotification(response.data.status);
@@ -57,8 +57,8 @@ class AuthContextProvider extends Component {
         value={{
           person,
           token,
-          onSignUp: this.onSignUp,
-          onSignOut: this.clearData,
+          onAuth: this.onAuth,
+          onSignOut: this.clearAuthData,
           onPersonDelete: this.onPersonDelete
         }}
       >
