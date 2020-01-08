@@ -9,14 +9,8 @@ const ProtectedRoute = ({
 }) => (
   <Route
     {...rest}
-    component={props =>
-      conditions ? (
-        <Redirect to={redirectTo} />
-      ) : (
-        <div>
-          <Component {...props} />
-        </div>
-      )
+    render={props =>
+      conditions ? <Redirect to={redirectTo} /> : <Component {...props} />
     }
   />
 );

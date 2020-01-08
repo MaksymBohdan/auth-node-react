@@ -1,22 +1,15 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const Person = require('../models/person');
-const confiq = require('../../config');
-
-const createToken = params => {
-  return jwt.sign(params, confiq.secretKey, {
-    expiresIn: '1h'
-  });
-};
+const { createToken } = require('../utils/tokenUtils');
 
 const signupRoute = (req, res) => {
   const { name, email, password } = req.body;
 
   Person.find({ email })
     .exec()
-    .then(person => {
-      if (person.length > 0)
+    .then(([person]) => {
+      if (person)
         return res.status(409).json({ status: 'Person already exists' });
 
       bcrypt.hash(password, 10, (err, hash) => {
@@ -45,6 +38,9 @@ const signupRoute = (req, res) => {
             return res.status(500).json({ error: err, status: 'Server error' });
           });
       });
+    })
+    .catch(err => {
+      return res.status(500).json({ error: err, status: 'Server error' });
     });
 };
 

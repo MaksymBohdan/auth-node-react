@@ -1,9 +1,12 @@
 import axios from 'axios';
+import { getAuthRoute } from '../utils/authUtils';
 
 axios.defaults.baseURL = 'http://localhost:4040';
 
-const personCreate = credentials =>
-  axios.post('/signup', credentials).then(({ data }) => data);
+const personAuth = (credentials, isRegistration) =>
+  axios
+    .post(getAuthRoute(isRegistration), credentials)
+    .then(({ data }) => data);
 
 const personDelete = token =>
   axios
@@ -12,4 +15,4 @@ const personDelete = token =>
     })
     .then(({ data }) => data.person);
 
-export { personCreate, personDelete };
+export { personAuth, personDelete };

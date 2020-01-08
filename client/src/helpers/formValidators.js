@@ -15,4 +15,13 @@ const signUpValidation = Yup.object().shape({
     .required('Required')
 });
 
-export { signUpValidation };
+const signInValidation = Yup.object().shape({
+  email: Yup.string()
+    .email('Invalid email')
+    .required('Required'),
+  password: Yup.string()
+    .min(6, 'Your password is too short')
+    .required('Required')
+});
+
+export { signUpValidation, signInValidation };

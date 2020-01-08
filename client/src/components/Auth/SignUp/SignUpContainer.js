@@ -1,9 +1,9 @@
 import React from 'react';
 import { Formik } from 'formik';
-import AuthContext from '../../contexts/auth';
+import AuthContext from '../../../contexts/auth';
 import SignUpView from './SignUpView';
-import { signUpValidation } from '../../helpers/formValidators';
-import { PageWrapper } from './styles';
+import { signUpValidation } from '../../../helpers/formValidators';
+import { PageWrapper } from '../styles';
 
 const initialFormValues = {
   name: '',
@@ -15,11 +15,11 @@ const initialFormValues = {
 const SignUp = () => (
   <PageWrapper>
     <AuthContext.Consumer>
-      {({ onSignUp }) => (
+      {({ onAuth }) => (
         <Formik
           initialValues={initialFormValues}
           onSubmit={(value, { setSubmitting }) =>
-            onSignUp(value, setSubmitting)
+            onAuth(value, true, setSubmitting)
           }
           validationSchema={signUpValidation}
         >
