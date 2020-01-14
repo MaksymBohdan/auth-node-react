@@ -15,11 +15,11 @@ const initialFormValues = {
 const SignUp = () => (
   <PageWrapper>
     <AuthContext.Consumer>
-      {({ onAuth }) => (
+      {({ onSignUp }) => (
         <Formik
           initialValues={initialFormValues}
           onSubmit={(value, { setSubmitting }) =>
-            onAuth(value, true, setSubmitting)
+            onSignUp(value, setSubmitting)
           }
           validationSchema={signUpValidation}
         >

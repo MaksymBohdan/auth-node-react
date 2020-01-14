@@ -4,7 +4,7 @@ import { Container, Note } from './styles';
 const Notifications = ({ notifications = [] }) => (
   <Container>
     {notifications.map(({ id, status, content }) => (
-      <Note key={id}>
+      <Note key={id} status={status}>
         {status}: {content}!
       </Note>
     ))}

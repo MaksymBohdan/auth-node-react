@@ -5,7 +5,9 @@ const personSchema = new Schema({
   _id: Schema.Types.ObjectId,
   name: { type: String, required: true },
   password: { type: String, required: true },
-  email: { type: String, required: true, unique: true }
+  email: { type: String, required: true, unique: true },
+  active: { type: Boolean, required: true, default: false },
+  temporaryToken: { type: String }
 });
 
 const Person = mongoose.model('Person', personSchema);

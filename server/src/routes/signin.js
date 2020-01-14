@@ -15,7 +15,9 @@ const signinRoute = (req, res) => {
         if (err) return res.status(500).json({ error: err });
 
         if (!isPasswordValid)
-          return res.status(404).json({ status: 'Wrong email or password' });
+          return res
+            .status(404)
+            .json({ status: 'error', content: 'Wrong email or password' });
 
         const { email, name, _id } = person;
 

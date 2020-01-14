@@ -1,5 +1,5 @@
 import React, { Component, createContext } from 'react';
-import { personAuth, personDelete } from '../services';
+import { signUp, personAuth, personDelete } from '../services';
 import {
   saveToStorage,
   getFromStorage,
@@ -20,16 +20,29 @@ class AuthContextProvider extends Component {
 
   static contextType = NotificationContext;
 
-  onAuth = (credentials, isRegistration, setSubmitting) => {
-    personAuth(credentials, isRegistration)
-      .then(({ person, token }) => {
-        saveToStorage(TOKEN, token);
-        saveToStorage(PERSON, person);
+  // onAuth = (credentials, isRegistration, setSubmitting) => {
+  //   personAuth(credentials, isRegistration)
+  //     .then(({ person, token }) => {
+  //       saveToStorage(TOKEN, token);
+  //       saveToStorage(PERSON, person);
 
-        this.setState({ person, token });
+  //       this.setState({ person, token });
+  //     })
+  //     .catch(({ response }) => {
+  //       this.context.handleShowNotification(response.data.status);
+  //       setSubmitting(false);
+  //     });
+  // };
+
+  onSignUp = (credentials, setSubmitting) => {
+    signUp(credentials)
+      .then(response => {
+        this.context.handleShowNotification(response);
+        setSubmitting(false);
       })
       .catch(({ response }) => {
-        this.context.handleShowNotification(response.data.status);
+        console.log('response', response);
+        this.context.handleShowNotification(response.data);
         setSubmitting(false);
       });
   };
@@ -45,7 +58,7 @@ class AuthContextProvider extends Component {
         if (!person) this.clearAuthData();
       })
       .catch(({ response }) => {
-        this.context.handleShowNotification(response.data.status);
+        this.context.handleShowNotification(response.data);
       });
   };
 
@@ -57,6 +70,7 @@ class AuthContextProvider extends Component {
         value={{
           person,
           token,
+          onSignUp: this.onSignUp,
           onAuth: this.onAuth,
           onSignOut: this.clearAuthData,
           onPersonDelete: this.onPersonDelete

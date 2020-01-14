@@ -3,7 +3,7 @@ const confiq = require('../../config');
 
 const createToken = params => {
   return jwt.sign(params, confiq.secretKey, {
-    expiresIn: '1h'
+    expiresIn: '2h'
   });
 };
 
