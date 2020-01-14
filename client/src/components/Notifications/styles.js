@@ -11,8 +11,9 @@ const Container = styled.ul`
 `;
 
 const Note = styled.li`
-  color: #d8000c;
-  background-color: #ffd2d2;
+  color: ${props => (props.status === 'ERROR' ? '#d8000c' : '#f1fbfc')};
+  background-color: ${props =>
+    props.status === 'ERROR' ? '#ffd2d2' : '#45b6fe'};
   padding: 30px 10px;
   margin: 10px;
   border-radius: 10px;

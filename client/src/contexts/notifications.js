@@ -10,7 +10,7 @@ class NotificationsContextProvider extends Component {
 
   static Consumer = NotificationContext.Consumer;
 
-  handleShowNotification = err => {
+  handleShowNotification = notification => {
     const id = Date.now();
 
     this.setState(
@@ -19,8 +19,7 @@ class NotificationsContextProvider extends Component {
           ...prevState.notifications,
           {
             id,
-            content: err,
-            status: 'ERROR'
+            ...notification
           }
         ]
       }),

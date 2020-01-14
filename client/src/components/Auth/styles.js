@@ -11,13 +11,13 @@ const PageWrapper = styled.section`
 
 const FormTitle = styled.span`
   padding-bottom: 15px;
-  color: white;
   font-weight: bold;
   font-size: 22px;
 `;
 
 const StyledForm = styled(Form)`
   margin: auto;
+  color: white;
   width: 400px;
   display: flex;
   flex-direction: column;
@@ -68,6 +68,26 @@ const LinkArea = styled(Link)`
   }
 `;
 
+const ConfirmComponent = styled.div`
+  margin: auto;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  padding: 20px 0;
+  background-color: ${props => (props.success ? '#45b6fe' : '#ffd2d2')};
+  color: ${props => (props.success ? '#f1fbfc' : '#d8000c')};
+`;
+
+const ContirmTitle = styled.h2`
+  margin: 0;
+`;
+
+const ConfirmButton = styled(StyledButton)`
+  color: ${props => (props.success ? '#45b6fe' : '#d8000c')};
+`;
+
 export {
   PageWrapper,
   FormTitle,
@@ -76,5 +96,8 @@ export {
   StyledButton,
   StyledInlineErrorMessage,
   StyledRow,
-  LinkArea
+  LinkArea,
+  ConfirmComponent,
+  ContirmTitle,
+  ConfirmButton
 };
