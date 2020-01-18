@@ -3,10 +3,10 @@ import { Switch, Route } from 'react-router-dom';
 import Main from './Main/Main';
 import SignIn from './Auth/SignIn/SignInContainer';
 import SignUp from './Auth/SignUp/SignUpContainer';
+import Verification from './Auth/Verification/VerificationContainer';
 import AuthContext from '../contexts/auth';
 import NotificationContext from '../contexts/notifications';
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
-import Verification from './Auth/Verification/Verification';
 
 const App = () => (
   <NotificationContext>

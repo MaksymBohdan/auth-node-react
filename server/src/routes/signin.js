@@ -1,23 +1,24 @@
 const Person = require('../models/person');
 const bcrypt = require('bcrypt');
 const { createToken } = require('../utils/tokenUtils');
+const {
+  WRONG_PASSWORD_OR_EMAIL,
+  SERVER_ERROR,
+  ACCOUNT_NOT_EXIST
+} = require('../helpers/messages');
 
 const signinRoute = (req, res) => {
   const { email, password } = req.body;
 
-  Person.find({ email })
-    .exec()
-    .then(([person]) => {
-      if (!person)
-        return res.status(404).json({ status: 'Wrong email or password' });
+  Person.findOne({ email })
+    .then(person => {
+      if (!person) return res.status(404).json(ACCOUNT_NOT_EXIST);
 
       bcrypt.compare(password, person.password, (err, isPasswordValid) => {
-        if (err) return res.status(500).json({ error: err });
+        if (err) return res.status(500).json(SERVER_ERROR);
 
         if (!isPasswordValid)
-          return res
-            .status(404)
-            .json({ status: 'error', content: 'Wrong email or password' });
+          return res.status(404).json(WRONG_PASSWORD_OR_EMAIL);
 
         const { email, name, _id } = person;
 
@@ -28,7 +29,7 @@ const signinRoute = (req, res) => {
       });
     })
     .catch(err => {
-      return res.status(500).json({ error: err, status: 'Server error' });
+      return res.status(500).json(SERVER_ERROR);
     });
 };
 

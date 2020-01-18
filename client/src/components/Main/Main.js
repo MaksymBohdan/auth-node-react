@@ -5,7 +5,7 @@ import ConfirmationDialog from '../ConfirmationDialog/ConfirmationDialogContaine
 
 const Main = () => (
   <AuthContext.Consumer>
-    {({ person, onSignOut, onPersonDelete, token }) => (
+    {({ person, onSignOut, onPersonDelete }) => (
       <ConfirmationDialog
         title="Delete"
         description="Are you sure you want to delete this person?"
@@ -21,7 +21,7 @@ const Main = () => (
               <StyledButton
                 type="button"
                 color="red"
-                onClick={confirm(() => onPersonDelete(token))}
+                onClick={confirm(() => onPersonDelete())}
               >
                 Delete Person
               </StyledButton>
