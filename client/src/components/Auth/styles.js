@@ -15,6 +15,10 @@ const FormTitle = styled.span`
   font-size: 22px;
 `;
 
+const FormContent = styled.span`
+  padding-bottom: 15px;
+`;
+
 const StyledForm = styled(Form)`
   margin: auto;
   color: white;
@@ -25,6 +29,11 @@ const StyledForm = styled(Form)`
   border-radius: 5px;
   padding: 20px 0;
   background-color: #228b22;
+`;
+
+const StyledFormError = styled(StyledForm)`
+  background-color: #ffd2d2;
+  color: #d8000c;
 `;
 
 const StyledRow = styled.div`
@@ -59,6 +68,10 @@ const StyledButton = styled.button`
   cursor: pointer;
 `;
 
+const StyledButtonError = styled(StyledButton)`
+  color: #d8000c;
+`;
+
 const LinkArea = styled(Link)`
   margin-top: 10px;
   color: white;
@@ -80,10 +93,6 @@ const ConfirmComponent = styled.div`
   color: ${props => (props.success ? '#f1fbfc' : '#d8000c')};
 `;
 
-const ContirmTitle = styled.h2`
-  margin: 0;
-`;
-
 const ConfirmButton = styled(StyledButton)`
   color: ${props => (props.success ? '#45b6fe' : '#d8000c')};
 `;
@@ -92,12 +101,14 @@ export {
   PageWrapper,
   FormTitle,
   StyledForm,
+  StyledFormError,
   StyledField,
   StyledButton,
+  StyledButtonError,
   StyledInlineErrorMessage,
   StyledRow,
   LinkArea,
   ConfirmComponent,
-  ContirmTitle,
-  ConfirmButton
+  ConfirmButton,
+  FormContent
 };

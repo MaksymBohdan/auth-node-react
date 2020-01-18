@@ -10,7 +10,6 @@ const verifyAccount = token =>
   axios.patch('/verify', token).then(({ data }) => console.log(data) || data);
 
 const resendToken = token =>
-  console.log('token', token) ||
   axios.post('/resend', token).then(({ data }) => data);
 
 const personAuth = (credentials, isRegistration) =>
