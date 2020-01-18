@@ -1,5 +1,11 @@
 import React, { Component, createContext } from 'react';
-import { signUp, personAuth, personDelete } from '../services';
+import {
+  signUp,
+  signIn,
+  personDelete,
+  verifyAccount,
+  resendToken
+} from '../services';
 import {
   saveToStorage,
   getFromStorage,
@@ -13,27 +19,27 @@ export const AuthContext = createContext();
 class AuthContextProvider extends Component {
   state = {
     person: getFromStorage(PERSON, null),
-    token: getFromStorage(TOKEN, null)
+    token: getFromStorage(TOKEN, null),
+    isVerified: false
   };
 
   static Consumer = AuthContext.Consumer;
 
   static contextType = NotificationContext;
 
-  // onAuth = (credentials, isRegistration, setSubmitting) => {
-  //   personAuth(credentials, isRegistration)
-  //     .then(({ person, token }) => {
-  //       saveToStorage(TOKEN, token);
-  //       saveToStorage(PERSON, person);
+  onSignIn = (credentials, setSubmitting) => {
+    signIn(credentials)
+      .then(({ person, token }) => {
+        saveToStorage(TOKEN, token);
+        saveToStorage(PERSON, person);
 
-  //       this.setState({ person, token });
-  //     })
-  //     .catch(({ response }) => {
-  //       this.context.handleShowNotification(response.data.status);
-  //     })
-  //     .finally(() => setSubmitting(false))
-
-  // };
+        this.setState({ person, token });
+      })
+      .catch(({ response }) => {
+        this.context.handleShowNotification(response.data);
+        setSubmitting(false);
+      });
+  };
 
   onSignUp = (credentials, setSubmitting) => {
     signUp(credentials)
@@ -49,8 +55,8 @@ class AuthContextProvider extends Component {
     this.setState({ person: null, token: null });
   };
 
-  onPersonDelete = token => {
-    personDelete(token)
+  onPersonDelete = () => {
+    personDelete(this.state.token)
       .then(person => {
         if (!person) this.clearAuthData();
       })
@@ -59,18 +65,37 @@ class AuthContextProvider extends Component {
       });
   };
 
+  onAccountVerify = token => {
+    verifyAccount({ token })
+      .then(() => this.setState({ isVerified: true }))
+      .catch(() => this.setState({ isVerified: false }));
+  };
+
+  resendVerificationToken = (email, setSubmitting) => {
+    resendToken(email)
+      .then(response => this.context.handleShowNotification(response))
+      .catch(({ response }) =>
+        this.context.handleShowNotification(response.data)
+      )
+      .finally(() => {
+        setSubmitting(false);
+      });
+  };
+
   render() {
-    const { person, token } = this.state;
+    const { person, isVerified } = this.state;
 
     return (
       <AuthContext.Provider
         value={{
           person,
-          token,
+          isVerified,
           onSignUp: this.onSignUp,
-          onAuth: this.onAuth,
+          onSignIn: this.onSignIn,
           onSignOut: this.clearAuthData,
-          onPersonDelete: this.onPersonDelete
+          onPersonDelete: this.onPersonDelete,
+          onVerify: this.onAccountVerify,
+          onTokenResend: this.resendVerificationToken
         }}
       >
         {this.props.children}

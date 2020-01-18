@@ -2,7 +2,7 @@ const ERROR = 'ERROR';
 const SUCCESS = 'SUCCESS';
 const STATUS_ERROR = { status: ERROR };
 const STATUS_SUCCESS = { status: SUCCESS };
-const SERVER_ERROR = { content: 'Server error', status: STATUS_ERROR };
+const SERVER_ERROR = { content: 'Server error', status: ERROR };
 const ACCOUNT_ACTIVATED = {
   status: ERROR,
   content: 'This account is activated. Please sign up'
@@ -20,6 +20,11 @@ const ACCOUNT_NOT_EXIST = {
   content: 'This account does not exist. Please create new one'
 };
 
+const WRONG_PASSWORD_OR_EMAIL = {
+  status: ERROR,
+  content: 'Wrong email or password'
+};
+
 module.exports = {
   STATUS_ERROR,
   STATUS_SUCCESS,
@@ -27,5 +32,6 @@ module.exports = {
   VERIFICATION_MSG,
   PERSON_EXIST,
   ACCOUNT_ACTIVATED,
-  ACCOUNT_NOT_EXIST
+  ACCOUNT_NOT_EXIST,
+  WRONG_PASSWORD_OR_EMAIL
 };
