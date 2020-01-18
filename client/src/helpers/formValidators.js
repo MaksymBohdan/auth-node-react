@@ -24,4 +24,10 @@ const signInValidation = Yup.object().shape({
     .required('Required')
 });
 
-export { signUpValidation, signInValidation };
+const resendTokenValidation = Yup.object().shape({
+  email: Yup.string()
+    .email('Invalid email')
+    .required('Required')
+});
+
+export { signUpValidation, signInValidation, resendTokenValidation };

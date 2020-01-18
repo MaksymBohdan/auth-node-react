@@ -30,21 +30,18 @@ class AuthContextProvider extends Component {
   //     })
   //     .catch(({ response }) => {
   //       this.context.handleShowNotification(response.data.status);
-  //       setSubmitting(false);
-  //     });
+  //     })
+  //     .finally(() => setSubmitting(false))
+
   // };
 
   onSignUp = (credentials, setSubmitting) => {
     signUp(credentials)
-      .then(response => {
-        this.context.handleShowNotification(response);
-        setSubmitting(false);
-      })
-      .catch(({ response }) => {
-        console.log('response', response);
-        this.context.handleShowNotification(response.data);
-        setSubmitting(false);
-      });
+      .then(response => this.context.handleShowNotification(response))
+      .catch(({ response }) =>
+        this.context.handleShowNotification(response.data)
+      )
+      .finally(() => setSubmitting(false));
   };
 
   clearAuthData = () => {

@@ -3,12 +3,15 @@ import { PageWrapper } from '../styles';
 import { verifyAccount, resendToken } from '../../../services';
 import VerificationFailed from './VerificationFailed';
 import VerificationSuccess from './VerificationSuccess';
+import { NotificationContext } from '../../../contexts/notifications';
 
 class Verification extends Component {
   state = {
     loading: true,
     isVerified: false
   };
+
+  static contextType = NotificationContext;
 
   componentDidMount() {
     const {
@@ -20,39 +23,33 @@ class Verification extends Component {
       .catch(() => this.setState({ isVerified: false, loading: false }));
   }
 
-  showComponent = token => {
+  showComponent = () => {
     const { isVerified } = this.state;
 
     return isVerified ? (
       <VerificationSuccess />
     ) : (
-      <VerificationFailed resend={this.resendVerificationToken} token={token} />
+      <VerificationFailed resend={this.resendVerificationToken} />
     );
   };
 
-  resendVerificationToken = () => {
-    const {
-      match: { params }
-    } = this.props;
-
-    resendToken({ token: params.token })
-      .then(() => console.log('then'))
-      .catch(() => console.log('catch'));
+  resendVerificationToken = (email, setSubmitting) => {
+    resendToken(email)
+      .then(response => this.context.handleShowNotification(response))
+      .catch(({ response }) =>
+        this.context.handleShowNotification(response.data)
+      )
+      .finally(() => {
+        setSubmitting(false);
+      });
   };
 
   render() {
     const { loading } = this.state;
-    const {
-      match: { params }
-    } = this.props;
 
     return (
       <PageWrapper>
-        {loading ? (
-          <h1>confirming your email...</h1>
-        ) : (
-          this.showComponent(params.token)
-        )}
+        {loading ? <h1>confirming your email...</h1> : this.showComponent()}
       </PageWrapper>
     );
   }

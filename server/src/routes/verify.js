@@ -14,8 +14,10 @@ const verifyRoute = (req, res) => {
     .then(person => {
       if (!person) return res.status(409).json(STATUS_ERROR);
 
-      jwt.verify(token, confiq.secretKey, (err, { email }) => {
+      jwt.verify(token, confiq.secretKey, (err, decoded) => {
         if (err) return res.status(409).json(STATUS_ERROR);
+
+        const { email } = decoded;
 
         Person.findOneAndUpdate(
           { email },
@@ -25,7 +27,7 @@ const verifyRoute = (req, res) => {
           .catch(() => res.status(501).json(SERVER_ERROR));
       });
     })
-    .catch(() => res.status(501).json(SERVER_ERROR));
+    .catch(() => res.status(500).json(SERVER_ERROR));
 };
 
 module.exports = verifyRoute;

@@ -1,11 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ConfirmButton, ContirmTitle, ConfirmComponent } from '../styles';
+import {
+  ConfirmButton,
+  FormTitle,
+  ConfirmComponent,
+  FormContent
+} from '../styles';
 
 const VerificationSuccess = () => (
   <ConfirmComponent success={true}>
-    <ContirmTitle>Thank you!</ContirmTitle>
-    <p>Your account has been verified. Please sign in</p>
+    <FormTitle>Thank you!</FormTitle>
+    <FormContent>Your account has been verified. Please sign in</FormContent>
     <Link to="/signin">
       <ConfirmButton success={true}>GO TO SIGN IN</ConfirmButton>
     </Link>
