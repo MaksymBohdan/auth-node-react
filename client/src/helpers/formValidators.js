@@ -24,10 +24,20 @@ const signInValidation = Yup.object().shape({
     .required('Required')
 });
 
-const resendTokenValidation = Yup.object().shape({
+const mailValidation = Yup.object().shape({
   email: Yup.string()
     .email('Invalid email')
     .required('Required')
 });
 
-export { signUpValidation, signInValidation, resendTokenValidation };
+const resetPasswordValidation = Yup.object().shape({
+  password: Yup.string()
+    .min(6, 'Your password is too short')
+    .required('Required'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .required('Required')
+});
+
+
+export { signUpValidation, signInValidation, mailValidation, resetPasswordValidation };

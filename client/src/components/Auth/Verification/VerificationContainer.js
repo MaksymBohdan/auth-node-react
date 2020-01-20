@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { AuthContext } from '../../../contexts/auth';
-import { PageWrapper } from '../styles';
 import VerificationFailed from './VerificationViewFailed';
 import VerificationSuccess from './VerificationViewSuccess';
 
@@ -18,11 +17,7 @@ class VerificationContainer extends Component {
   render() {
     const { isVerified } = this.context;
 
-    return (
-      <PageWrapper>
-        {isVerified ? <VerificationSuccess /> : <VerificationFailed />}
-      </PageWrapper>
-    );
+    return isVerified ? <VerificationSuccess /> : <VerificationFailed />;
   }
 }
 

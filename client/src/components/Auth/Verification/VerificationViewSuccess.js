@@ -1,20 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import SignInRedirect from '../components/SignInRedirect';
 import {
-  ConfirmButton,
-  FormTitle,
-  ConfirmComponent,
-  FormContent
-} from '../styles';
+  VERIFICATION_SUCCESS_TITLE,
+  VERIFICATION_SUCCESS_CONTENT
+} from '../../../helpers/authConstants';
 
 const VerificationSuccess = () => (
-  <ConfirmComponent success={true}>
-    <FormTitle>Thank you!</FormTitle>
-    <FormContent>Your account has been verified. Please sign in</FormContent>
-    <Link to="/signin">
-      <ConfirmButton success={true}>GO TO SIGN IN</ConfirmButton>
-    </Link>
-  </ConfirmComponent>
+  <SignInRedirect
+    title={VERIFICATION_SUCCESS_TITLE}
+    content={VERIFICATION_SUCCESS_CONTENT}
+  />
 );
 
 export default VerificationSuccess;

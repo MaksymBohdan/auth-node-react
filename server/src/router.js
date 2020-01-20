@@ -5,15 +5,19 @@ const {
   signinRoute,
   personDeleteRoute,
   verifyRoute,
-  resendTokenRoute
+  resendTokenRoute,
+  passwordForgotRoute,
+  passwordResetRoute
 } = require('./routes');
 const checkAuth = require('./middleware/checkAuth');
 
 router
   .post('/signup', signupRoute)
   .post('/signin', signinRoute)
-  .post('/delete', checkAuth, personDeleteRoute)
+  .post('/verify', verifyRoute)
   .post('/resend', resendTokenRoute)
-  .patch('/verify', verifyRoute);
+  .post('/password-forgot', passwordForgotRoute)
+  .post('/password-reset', (passwordResetRoute))
+  .post('/delete', checkAuth, personDeleteRoute);
 
 module.exports = router;

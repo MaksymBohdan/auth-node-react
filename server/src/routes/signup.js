@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const Person = require('../models/person');
 const { createToken } = require('../utils/tokenUtils');
-const sendConfirmationMail = require('../utils/sendMailUtils');
+const { sendVerificationMail } = require('../utils/mailUtils');
 const {
   VERIFICATION_MSG,
   PERSON_EXIST,
@@ -31,7 +31,7 @@ const signupRoute = (req, res) => {
         person
           .save()
           .then(({ _doc: { email, name } }) => {
-            sendConfirmationMail({ email, name, temporaryToken });
+            sendVerificationMail({ email, name, temporaryToken });
 
             res.status(201).json(VERIFICATION_MSG);
           })

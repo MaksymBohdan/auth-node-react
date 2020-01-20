@@ -28,9 +28,7 @@ const signinRoute = (req, res) => {
         });
       });
     })
-    .catch(err => {
-      return res.status(500).json(SERVER_ERROR);
-    });
+    .catch(() => res.status(500).json(SERVER_ERROR));
 };
 
 module.exports = signinRoute;
