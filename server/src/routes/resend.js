@@ -1,6 +1,6 @@
 const Person = require('../models/person');
 const { createToken } = require('../utils/tokenUtils');
-const sendConfirmationMail = require('../utils/sendMailUtils');
+const sendConfirmationMail = require('../utils/mailUtils');
 const {
   ACCOUNT_ACTIVATED,
   ACCOUNT_NOT_EXIST,

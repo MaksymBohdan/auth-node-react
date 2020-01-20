@@ -9,10 +9,16 @@ const signIn = credentials =>
   axios.post('/signin', credentials).then(({ data }) => data);
 
 const verifyAccount = token =>
-  axios.patch('/verify', token).then(({ data }) => console.log(data) || data);
+  axios.post('/verify', token).then(({ data }) => data);
 
-const resendToken = token =>
-  axios.post('/resend', token).then(({ data }) => data);
+const resendToken = email =>
+  axios.post('/resend', email).then(({ data }) => data);
+
+const passwordForgot = email =>
+  axios.post('/password-forgot', email).then(({ data }) => data);
+
+const passwordReset = password =>
+  axios.post('/password-reset', password).then(({ data }) => data);
 
 const personDelete = token =>
   axios
@@ -21,4 +27,12 @@ const personDelete = token =>
     })
     .then(({ data }) => data.person);
 
-export { signUp, signIn, personDelete, verifyAccount, resendToken };
+export {
+  signUp,
+  signIn,
+  personDelete,
+  verifyAccount,
+  resendToken,
+  passwordForgot,
+  passwordReset
+};

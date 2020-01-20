@@ -4,7 +4,9 @@ import {
   signIn,
   personDelete,
   verifyAccount,
-  resendToken
+  resendToken,
+  passwordForgot,
+  passwordReset
 } from '../services';
 import {
   saveToStorage,
@@ -20,7 +22,8 @@ class AuthContextProvider extends Component {
   state = {
     person: getFromStorage(PERSON, null),
     token: getFromStorage(TOKEN, null),
-    isVerified: false
+    isVerified: false,
+    isPasswordReset: false
   };
 
   static Consumer = AuthContext.Consumer;
@@ -82,20 +85,45 @@ class AuthContextProvider extends Component {
       });
   };
 
+  onPasswordForgot = (email, setSubmitting) => {
+    passwordForgot(email)
+      .then(response => this.context.handleShowNotification(response))
+      .catch(({ response }) =>
+        this.context.handleShowNotification(response.data)
+      )
+      .finally(() => {
+        setSubmitting(false);
+      });
+  };
+
+  onPasswordReset = (credentials, setSubmitting) => {
+    passwordReset(credentials)
+      .then(() => this.setState({ isPasswordReset: true }))
+      .catch(({ response }) =>
+        this.context.handleShowNotification(response.data)
+      )
+      .finally(() => {
+        setSubmitting(false);
+      });
+  };
+
   render() {
-    const { person, isVerified } = this.state;
+    const { person, isVerified, isPasswordReset } = this.state;
 
     return (
       <AuthContext.Provider
         value={{
           person,
           isVerified,
+          isPasswordReset,
           onSignUp: this.onSignUp,
           onSignIn: this.onSignIn,
           onSignOut: this.clearAuthData,
           onPersonDelete: this.onPersonDelete,
           onVerify: this.onAccountVerify,
-          onTokenResend: this.resendVerificationToken
+          onTokenResend: this.resendVerificationToken,
+          onPasswordForgot: this.onPasswordForgot,
+          onPasswordReset: this.onPasswordReset
         }}
       >
         {this.props.children}

@@ -3,6 +3,8 @@ import { Switch, Route } from 'react-router-dom';
 import Main from './Main/Main';
 import SignIn from './Auth/SignIn/SignInContainer';
 import SignUp from './Auth/SignUp/SignUpContainer';
+import PasswordForgot from './Auth/PasswordReset/PasswordForgot';
+import PasswordReset from './Auth/PasswordReset/PasswordReset';
 import Verification from './Auth/Verification/VerificationContainer';
 import AuthContext from '../contexts/auth';
 import NotificationContext from '../contexts/notifications';
@@ -34,6 +36,8 @@ const App = () => (
               redirectTo="/"
             />
             <Route path="/verify/:token" component={Verification} />
+            <Route path="/password-forgot" component={PasswordForgot} />
+            <Route path="/password-reset/:token" component={PasswordReset} />
           </Switch>
         )}
       </AuthContext.Consumer>
