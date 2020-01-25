@@ -9,6 +9,7 @@ import {
   StyledRow,
   LinkArea
 } from '../styles';
+import SocialSection from '../../Social/SocialSection';
 
 const SignInView = ({ isSubmitting }) => (
   <StyledForm>
@@ -30,6 +31,7 @@ const SignInView = ({ isSubmitting }) => (
     </StyledButton>
     <LinkArea to="/signup">I don't have an account yet</LinkArea>
     <LinkArea to="/password-forgot">Forgot the password?</LinkArea>
+    <SocialSection />
   </StyledForm>
 );
 

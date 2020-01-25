@@ -11,19 +11,21 @@ const initialFormValues = {
 };
 
 const SignIn = () => (
-  <PageWrapper>
-    <AuthContext.Consumer>
-      {({ onSignIn }) => (
+  <AuthContext.Consumer>
+    {({ onSignIn }) => (
+      <PageWrapper>
         <Formik
           initialValues={initialFormValues}
-          onSubmit={(value, { setSubmitting }) => onSignIn(value, setSubmitting)}
+          onSubmit={(value, { setSubmitting }) =>
+            onSignIn(value, setSubmitting)
+          }
           validationSchema={signInValidation}
         >
           {({ isSubmitting }) => <SignInView isSubmitting={isSubmitting} />}
         </Formik>
-      )}
-    </AuthContext.Consumer>
-  </PageWrapper>
+      </PageWrapper>
+    )}
+  </AuthContext.Consumer>
 );
 
 export default SignIn;

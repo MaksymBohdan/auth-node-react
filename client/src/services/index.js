@@ -27,6 +27,9 @@ const personDelete = token =>
     })
     .then(({ data }) => data.person);
 
+const connectWithFb = credentials =>
+  axios.post('/fb-connect', credentials).then(({ data }) => data);
+
 export {
   signUp,
   signIn,
@@ -34,5 +37,6 @@ export {
   verifyAccount,
   resendToken,
   passwordForgot,
-  passwordReset
+  passwordReset,
+  connectWithFb
 };

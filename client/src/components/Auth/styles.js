@@ -58,7 +58,7 @@ const StyledInlineErrorMessage = styled.span`
 `;
 
 const StyledButton = styled.button`
-  width: 150px;
+  width: 210px;
   border-radius: 5px;
   padding: 10px 20px;
   font-weight: bold;

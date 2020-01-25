@@ -6,7 +6,8 @@ import {
   verifyAccount,
   resendToken,
   passwordForgot,
-  passwordReset
+  passwordReset,
+  connectWithFb
 } from '../services';
 import {
   saveToStorage,
@@ -107,6 +108,20 @@ class AuthContextProvider extends Component {
       });
   };
 
+  onConnectWithFb = data => {
+    connectWithFb(data)
+      .then(({ person, token }) => {
+        saveToStorage(TOKEN, token);
+        saveToStorage(PERSON, person);
+
+        this.setState({ person, token });
+      })
+      .catch(({ response }) => {
+        console.log('err');
+        this.context.handleShowNotification(response.data);
+      });
+  };
+
   render() {
     const { person, isVerified, isPasswordReset } = this.state;
 
@@ -118,6 +133,7 @@ class AuthContextProvider extends Component {
           isPasswordReset,
           onSignUp: this.onSignUp,
           onSignIn: this.onSignIn,
+          onConnectWithFb: this.onConnectWithFb,
           onSignOut: this.clearAuthData,
           onPersonDelete: this.onPersonDelete,
           onVerify: this.onAccountVerify,
