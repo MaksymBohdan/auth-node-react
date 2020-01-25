@@ -15,7 +15,7 @@ const signinRoute = (req, res) => {
       if (!person) return res.status(404).json(ACCOUNT_NOT_EXIST);
 
       bcrypt.compare(password, person.password, (err, isPasswordValid) => {
-        if (err) return res.status(500).json(SERVER_ERROR);
+        if (err) return res.status(500).json({ ...SERVER_ERROR, err });
 
         if (!isPasswordValid)
           return res.status(404).json(WRONG_PASSWORD_OR_EMAIL);
@@ -28,7 +28,7 @@ const signinRoute = (req, res) => {
         });
       });
     })
-    .catch(() => res.status(500).json(SERVER_ERROR));
+    .catch(err => res.status(500).json({ ...SERVER_ERROR, err }));
 };
 
 module.exports = signinRoute;

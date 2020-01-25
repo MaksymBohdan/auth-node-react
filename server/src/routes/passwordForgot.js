@@ -20,11 +20,11 @@ const passwordForgotRoute = (req, res) => {
 
       Person.findOneAndUpdate({ email }, { passwordResetToken })
         .then(() => res.status(200).json(PASSWORD_RESET_MSG))
-        .catch(() => res.status(501).json(SERVER_ERROR));
+        .catch(err => res.status(500).json({ ...SERVER_ERROR, err }));
 
       sendPasswordForgotMail({ email, name, passwordResetToken });
     })
-    .catch(() => res.status(500).json(SERVER_ERROR));
+    .catch(err => res.status(500).json({ ...SERVER_ERROR, err }));
 };
 
 module.exports = passwordForgotRoute;

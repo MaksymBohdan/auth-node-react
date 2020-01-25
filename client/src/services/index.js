@@ -30,6 +30,9 @@ const personDelete = token =>
 const connectWithFb = credentials =>
   axios.post('/fb-connect', credentials).then(({ data }) => data);
 
+const connectWithGoogle = credentials =>
+  axios.post('/google-connect', credentials).then(({ data }) => data);
+
 export {
   signUp,
   signIn,
@@ -38,5 +41,6 @@ export {
   resendToken,
   passwordForgot,
   passwordReset,
-  connectWithFb
+  connectWithFb,
+  connectWithGoogle
 };

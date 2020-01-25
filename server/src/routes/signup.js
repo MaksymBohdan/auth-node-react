@@ -17,7 +17,7 @@ const signupRoute = (req, res) => {
       if (person) return res.status(409).json(PERSON_EXIST);
 
       bcrypt.hash(password, 10, (err, hash) => {
-        if (err) return res.status(500).json(SERVER_ERROR);
+        if (err) return res.status(500).json({ ...SERVER_ERROR, err });
 
         const temporaryToken = createToken({ email });
         const person = new Person({
@@ -35,10 +35,10 @@ const signupRoute = (req, res) => {
 
             res.status(201).json(VERIFICATION_MSG);
           })
-          .catch(() => res.status(500).json(SERVER_ERROR));
+          .catch(err => res.status(500).json({ ...SERVER_ERROR, err }));
       });
     })
-    .catch(() => res.status(500).json(SERVER_ERROR));
+    .catch(err => res.status(500).json({ ...SERVER_ERROR, err }));
 };
 
 module.exports = signupRoute;

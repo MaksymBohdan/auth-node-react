@@ -24,10 +24,11 @@ const verifyRoute = (req, res) => {
           { active: true, $unset: { temporaryToken: 1 } }
         )
           .then(res.status(200).json(STATUS_SUCCESS))
-          .catch(() => res.status(501).json(SERVER_ERROR));
+
+          .catch(err => res.status(500).json({ ...SERVER_ERROR, err }));
       });
     })
-    .catch(() => res.status(500).json(SERVER_ERROR));
+    .catch(err => res.status(500).json({ ...SERVER_ERROR, err }));
 };
 
 module.exports = verifyRoute;

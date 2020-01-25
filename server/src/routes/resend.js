@@ -29,9 +29,9 @@ const resendTokenRoute = (req, res) => {
 
           res.status(201).json(VERIFICATION_MSG);
         })
-        .catch(() => res.status(500).json(SERVER_ERROR));
+        .catch(err => res.status(500).json({ ...SERVER_ERROR, err }));
     })
-    .catch(() => res.status(500).json(SERVER_ERROR));
+    .catch(err => res.status(500).json({ ...SERVER_ERROR, err }));
 };
 
 module.exports = resendTokenRoute;

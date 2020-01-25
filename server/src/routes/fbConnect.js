@@ -1,17 +1,16 @@
-require('dotenv').config();
 const fetch = require('node-fetch');
 const mongoose = require('mongoose');
 const Person = require('../models/person');
 const { createToken } = require('../utils/tokenUtils');
 const { SERVER_ERROR } = require('../helpers/messages');
+const confiq = require('../../config');
 
 const fbConnectionRoute = (req, res) => {
-  const { accessToken, userID, email, name } = req.body;
-  const { FB_GRAPH_URL_MAIN, FB_GRAPH_URL_REST_PARAMS } = process.env;
+  const { accessToken, userID } = req.body;
 
-  fetch(`${FB_GRAPH_URL_MAIN}${accessToken}${FB_GRAPH_URL_REST_PARAMS}`)
+  fetch(`${confiq.fbGraphUrlMain}${accessToken}${confiq.fbGraphUrlRestParams}`)
     .then(data => data.json())
-    .then(({ id }) => {
+    .then(({ id, name, email }) => {
       if (id === userID) {
         Person.findOne({ email })
           .then(person => {
@@ -37,10 +36,10 @@ const fbConnectionRoute = (req, res) => {
               });
             });
           })
-          .catch(() => res.status(500).json(SERVER_ERROR));
+          .catch(err => res.status(500).json({ ...SERVER_ERROR, err }));
       }
     })
-    .catch(() => res.status(500).json(SERVER_ERROR));
+    .catch(err => res.status(500).json({ ...SERVER_ERROR, err }));
 };
 
 module.exports = fbConnectionRoute;
