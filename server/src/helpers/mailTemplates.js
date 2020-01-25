@@ -4,7 +4,7 @@ const mailGenerator = new MailGen({
   theme: 'salted',
   product: {
     name: 'Authapp',
-    link: 'http://localhost:3000/'
+    link: 'https://localhost:3000/'
   }
 });
 
@@ -18,7 +18,7 @@ const emailVerifyTemplate = (email, name, temporaryToken) => {
         button: {
           color: '#33b5e5',
           text: 'Verify account',
-          link: `http://localhost:3000/verify/${temporaryToken}`
+          link: `https://localhost:3000/verify/${temporaryToken}`
         }
       }
     }
@@ -44,7 +44,7 @@ const passwordForgotTemplate = (email, name, passwordResetToken) => {
         button: {
           color: '#33b5e5',
           text: 'Reset password',
-          link: `http://localhost:3000/password-reset/${passwordResetToken}`
+          link: `https://localhost:3000/password-reset/${passwordResetToken}`
         }
       }
     }

@@ -24,10 +24,10 @@ const passwordResetRoute = (req, res) => {
           { password: hashPassword, $unset: { passwordResetToken: 1 } }
         )
           .then(() => res.status(200).json(PASSWORD_CHANGED))
-          .catch(() => res.status(500).json(SERVER_ERROR));
+          .catch(err => res.status(500).json({ ...SERVER_ERROR, err }));
       });
     })
-    .catch(() => res.status(500).json(SERVER_ERROR));
+    .catch(err => res.status(500).json({ ...SERVER_ERROR, err }));
 };
 
 module.exports = passwordResetRoute;

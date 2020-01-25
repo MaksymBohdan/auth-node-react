@@ -6,6 +6,7 @@ const resendTokenRoute = require('./resend');
 const passwordForgotRoute = require('./passwordForgot');
 const passwordResetRoute = require('./passwordReset');
 const fbConnectionRoute = require('./fbConnect');
+const googleConnectionRoute = require('./googleConnect')
 
 module.exports = {
   signupRoute,
@@ -15,5 +16,6 @@ module.exports = {
   resendTokenRoute,
   passwordForgotRoute,
   passwordResetRoute,
-  fbConnectionRoute
+  fbConnectionRoute,
+  googleConnectionRoute
 };

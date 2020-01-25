@@ -7,7 +7,8 @@ import {
   resendToken,
   passwordForgot,
   passwordReset,
-  connectWithFb
+  connectWithFb,
+  connectWithGoogle
 } from '../services';
 import {
   saveToStorage,
@@ -109,7 +110,9 @@ class AuthContextProvider extends Component {
   };
 
   onConnectWithFb = data => {
-    connectWithFb(data)
+    const { accessToken, userID } = data;
+
+    connectWithFb({ accessToken, userID })
       .then(({ person, token }) => {
         saveToStorage(TOKEN, token);
         saveToStorage(PERSON, person);
@@ -117,7 +120,21 @@ class AuthContextProvider extends Component {
         this.setState({ person, token });
       })
       .catch(({ response }) => {
-        console.log('err');
+        this.context.handleShowNotification(response.data);
+      });
+  };
+
+  onConnectWithGoogle = data => {
+    const { tokenId } = data;
+
+    connectWithGoogle({ tokenId })
+      .then(({ person, token }) => {
+        saveToStorage(TOKEN, token);
+        saveToStorage(PERSON, person);
+
+        this.setState({ person, token });
+      })
+      .catch(({ response }) => {
         this.context.handleShowNotification(response.data);
       });
   };
@@ -134,6 +151,7 @@ class AuthContextProvider extends Component {
           onSignUp: this.onSignUp,
           onSignIn: this.onSignIn,
           onConnectWithFb: this.onConnectWithFb,
+          onConnectWithGoogle: this.onConnectWithGoogle,
           onSignOut: this.clearAuthData,
           onPersonDelete: this.onPersonDelete,
           onVerify: this.onAccountVerify,
