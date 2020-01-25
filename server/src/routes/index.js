@@ -5,7 +5,7 @@ const verifyRoute = require('./verify');
 const resendTokenRoute = require('./resend');
 const passwordForgotRoute = require('./passwordForgot');
 const passwordResetRoute = require('./passwordReset');
-
+const fbConnectionRoute = require('./fbConnect');
 
 module.exports = {
   signupRoute,
@@ -14,5 +14,6 @@ module.exports = {
   verifyRoute,
   resendTokenRoute,
   passwordForgotRoute,
-  passwordResetRoute
+  passwordResetRoute,
+  fbConnectionRoute
 };

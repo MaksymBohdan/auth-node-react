@@ -13,9 +13,9 @@ const initialFormValues = {
 };
 
 const SignUp = () => (
-  <PageWrapper>
-    <AuthContext.Consumer>
-      {({ onSignUp }) => (
+  <AuthContext.Consumer>
+    {({ onSignUp }) => (
+      <PageWrapper>
         <Formik
           initialValues={initialFormValues}
           onSubmit={(value, { setSubmitting }) =>
@@ -25,9 +25,9 @@ const SignUp = () => (
         >
           {({ isSubmitting }) => <SignUpView isSubmitting={isSubmitting} />}
         </Formik>
-      )}
-    </AuthContext.Consumer>
-  </PageWrapper>
+      </PageWrapper>
+    )}
+  </AuthContext.Consumer>
 );
 
 export default SignUp;
