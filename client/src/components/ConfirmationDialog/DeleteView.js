@@ -1,22 +1,14 @@
 import React from 'react';
 import { StyledButton, ControlArea, Dialog, Overlay } from './styles';
 
-const ConfirmationDialogView = ({
-  isOpen,
-  show,
-  title,
-  description,
-  hide,
-  confirm,
-  children
-}) => (
+const DeleteView = ({ isOpen, show, hide, confirm, children }) => (
   <>
     {children(show)}
     {isOpen && (
       <Overlay>
         <Dialog>
-          <h2>{title}</h2>
-          <span>{description}</span>
+          <h2>Delete</h2>
+          <span>Are you sure you want to delete this person?</span>
           <ControlArea>
             <StyledButton color="red" onClick={hide}>
               Cancel
@@ -31,4 +23,4 @@ const ConfirmationDialogView = ({
   </>
 );
 
-export default ConfirmationDialogView;
+export default DeleteView;

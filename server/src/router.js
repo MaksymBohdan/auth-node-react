@@ -9,9 +9,11 @@ const {
   passwordForgotRoute,
   passwordResetRoute,
   fbConnectionRoute,
-  googleConnectionRoute
+  googleConnectionRoute,
+  fileUploadRoute
 } = require('./routes');
 const checkAuth = require('./middleware/checkAuth');
+const uploadMiddleware = require('./middleware/uploads');
 
 router
   .post('/signup', signupRoute)
@@ -22,6 +24,7 @@ router
   .post('/resend', resendTokenRoute)
   .post('/password-forgot', passwordForgotRoute)
   .post('/password-reset', passwordResetRoute)
-  .post('/delete', checkAuth, personDeleteRoute);
+  .post('/delete', checkAuth, personDeleteRoute)
+  .post('/upload-file', uploadMiddleware, fileUploadRoute);
 
 module.exports = router;
