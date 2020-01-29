@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
-import ConfirmationDialogView from './ConfirmationDialogView';
+import { Component } from 'react';
 
-class ConfirmationDialog extends Component {
+class UploadDialogContainer extends Component {
   state = {
     isOpen: false,
     callback: null
@@ -10,9 +9,6 @@ class ConfirmationDialog extends Component {
   hide = () => this.setState({ isOpen: false });
 
   show = callback => event => {
-    // to reuse behavior with other components
-    event.preventDefault();
-
     const mockedEvent = {
       ...event,
       target: { ...event.target, value: event.target.value }
@@ -28,16 +24,14 @@ class ConfirmationDialog extends Component {
 
   render() {
     const { isOpen } = this.state;
-    return (
-      <ConfirmationDialogView
-        isOpen={isOpen}
-        show={this.show}
-        hide={this.hide}
-        confirm={this.confirm}
-        {...this.props}
-      />
-    );
+    const { children } = this.props;
+    return children({
+      isOpen: isOpen,
+      show: this.show,
+      hide: this.hide,
+      confirm: this.confirm
+    });
   }
 }
 
-export default ConfirmationDialog;
+export default UploadDialogContainer;

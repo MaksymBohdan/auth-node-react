@@ -41,4 +41,9 @@ const StyledButton = styled.button`
   cursor: pointer;
 `;
 
-export { StyledButton, ControlArea, Dialog, Overlay };
+const ConfirmButton = styled(StyledButton)`
+  background-color: ${props => (props.disabled ? '#dddddd' : null)};
+  color: ${props => (props.disabled ? 'black' : null)};
+`;
+
+export { StyledButton, ControlArea, Dialog, Overlay, ConfirmButton };

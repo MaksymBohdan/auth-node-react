@@ -8,7 +8,8 @@ const personSchema = new Schema({
   email: { type: String, required: true, unique: true },
   active: { type: Boolean, required: true, default: false },
   temporaryToken: { type: String },
-  passwordResetToken: { type: String }
+  passwordResetToken: { type: String },
+  imageUrl: { type: String }
 });
 
 const Person = mongoose.model('Person', personSchema);

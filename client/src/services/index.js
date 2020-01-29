@@ -33,6 +33,9 @@ const connectWithFb = credentials =>
 const connectWithGoogle = credentials =>
   axios.post('/google-connect', credentials).then(({ data }) => data);
 
+const uploadFile = (formData, person) =>
+  axios.post('/upload-file', formData, person).then(({ data }) => data);
+
 export {
   signUp,
   signIn,
@@ -42,5 +45,6 @@ export {
   passwordForgot,
   passwordReset,
   connectWithFb,
-  connectWithGoogle
+  connectWithGoogle,
+  uploadFile
 };
