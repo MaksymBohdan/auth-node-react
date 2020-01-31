@@ -7,7 +7,7 @@ import { PageWrapper } from '../styles';
 
 const initialFormValues = {
   email: '',
-  password: ''
+  password: '',
 };
 
 const SignIn = () => (

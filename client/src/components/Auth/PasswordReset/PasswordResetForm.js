@@ -9,7 +9,7 @@ import {
   StyledInlineErrorMessage,
   StyledRow,
   FormContent,
-  PageWrapper
+  PageWrapper,
 } from '../styles';
 
 const PasswordResetForm = ({ token, onSubmit, title, content }) => (

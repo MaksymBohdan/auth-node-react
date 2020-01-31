@@ -4,15 +4,17 @@ import VerificationFailed from './VerificationViewFailed';
 import VerificationSuccess from './VerificationViewSuccess';
 
 class VerificationContainer extends Component {
-  static contextType = AuthContext;
-
   componentDidMount() {
     const {
-      match: { params }
+      match: { params },
     } = this.props;
 
-    this.context.onVerify(params.token);
+    const { onVerify } = this.context;
+
+    onVerify(params.token);
   }
+
+  static contextType = AuthContext;
 
   render() {
     const { isVerified } = this.context;

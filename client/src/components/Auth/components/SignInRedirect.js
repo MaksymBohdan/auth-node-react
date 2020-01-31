@@ -5,16 +5,16 @@ import {
   FormTitle,
   ConfirmComponent,
   FormContent,
-  PageWrapper
+  PageWrapper,
 } from '../styles';
 
 const SignInRedirect = ({ title, content }) => (
   <PageWrapper>
-    <ConfirmComponent success={true}>
+    <ConfirmComponent success>
       <FormTitle>{title}</FormTitle>
       <FormContent>{content}</FormContent>
       <Link to="/signin">
-        <ConfirmButton success={true}>GO TO SIGN IN</ConfirmButton>
+        <ConfirmButton success>GO TO SIGN IN</ConfirmButton>
       </Link>
     </ConfirmComponent>
   </PageWrapper>

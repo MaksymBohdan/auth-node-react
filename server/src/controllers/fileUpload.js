@@ -12,9 +12,7 @@ const fileUploadRoute = (req, res) => {
 
       const { email, name, _id, imageUrl } = updatedPerson;
 
-      console.log(updatedPerson);
-      
-      res.status(200).json({ person: { email, name, _id, imageUrl } });
+      return res.status(200).json({ person: { email, name, _id, imageUrl } });
     })
     .catch(err => res.status(500).json({ ...SERVER_ERROR, err }));
 };

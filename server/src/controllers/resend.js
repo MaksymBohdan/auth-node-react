@@ -5,7 +5,7 @@ const {
   ACCOUNT_ACTIVATED,
   ACCOUNT_NOT_EXIST,
   VERIFICATION_MSG,
-  SERVER_ERROR
+  SERVER_ERROR,
 } = require('../helpers/messages');
 
 const resendTokenRoute = (req, res) => {
@@ -17,12 +17,12 @@ const resendTokenRoute = (req, res) => {
       if (person.active && !person.temporaryToken)
         return res.status(409).json(ACCOUNT_ACTIVATED);
 
-      const { email, name } = person;
+      const { name } = person;
       const updatedToken = createToken({ email });
 
-      Person.findOneAndUpdate(
+      return Person.findOneAndUpdate(
         { email },
-        { temporaryToken: updatedToken, active: true }
+        { temporaryToken: updatedToken, active: true },
       )
         .then(() => {
           sendConfirmationMail({ email, name, temporaryToken: updatedToken });

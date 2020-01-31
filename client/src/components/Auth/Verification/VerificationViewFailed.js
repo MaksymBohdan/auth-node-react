@@ -3,7 +3,7 @@ import AuthContext from '../../../contexts/auth';
 import SendMailForm from '../components/SendMailForm';
 import {
   VERIFICATION_ERROR_CONTENT,
-  VERIFICATION_ERROR_TITLE
+  VERIFICATION_ERROR_TITLE,
 } from '../../../helpers/authConstants';
 
 const VerificationFailed = () => (

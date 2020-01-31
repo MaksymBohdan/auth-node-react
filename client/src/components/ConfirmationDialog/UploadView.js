@@ -4,7 +4,7 @@ import {
   ControlArea,
   Dialog,
   Overlay,
-  ConfirmButton
+  ConfirmButton,
 } from './styles';
 
 const UploadDialogView = ({
@@ -14,7 +14,7 @@ const UploadDialogView = ({
   confirm,
   children,
   handleSelectedFile,
-  file
+  file,
 }) => (
   <>
     {children(show)}

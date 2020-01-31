@@ -6,18 +6,19 @@ const { sendVerificationMail } = require('../utils/mailUtils');
 const {
   VERIFICATION_MSG,
   PERSON_EXIST,
-  SERVER_ERROR
+  SERVER_ERROR,
 } = require('../helpers/messages');
 
 const signupRoute = (req, res) => {
   const { name, email, password } = req.body;
 
   Person.findOne({ email })
-    .then(person => {
-      if (person) return res.status(409).json(PERSON_EXIST);
+    .then(existingPerson => {
+      if (existingPerson) return res.status(409).json(PERSON_EXIST);
 
-      bcrypt.hash(password, 10, (err, hash) => {
-        if (err) return res.status(500).json({ ...SERVER_ERROR, err });
+      return bcrypt.hash(password, 10, (bcryptErr, hash) => {
+        if (bcryptErr)
+          return res.status(500).json({ ...SERVER_ERROR, bcryptErr });
 
         const temporaryToken = createToken({ email });
         const person = new Person({
@@ -25,13 +26,17 @@ const signupRoute = (req, res) => {
           name,
           email,
           password: hash,
-          temporaryToken
+          temporaryToken,
         });
 
-        person
+        return person
           .save()
-          .then(({ _doc: { email, name } }) => {
-            sendVerificationMail({ email, name, temporaryToken });
+          .then(({ _doc: { email: newPersonEmail, name: newPersonName } }) => {
+            sendVerificationMail({
+              email: newPersonEmail,
+              name: newPersonName,
+              temporaryToken,
+            });
 
             res.status(201).json(VERIFICATION_MSG);
           })

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const { Schema } = mongoose;
 
 const personSchema = new Schema({
@@ -9,7 +10,7 @@ const personSchema = new Schema({
   active: { type: Boolean, required: true, default: false },
   temporaryToken: { type: String },
   passwordResetToken: { type: String },
-  imageUrl: { type: String }
+  imageUrl: { type: String },
 });
 
 const Person = mongoose.model('Person', personSchema);

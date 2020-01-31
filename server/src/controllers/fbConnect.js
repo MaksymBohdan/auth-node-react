@@ -15,10 +15,10 @@ const fbConnectionRoute = (req, res) => {
         Person.findOne({ email })
           .then(person => {
             if (person) {
-              const { email, name, _id } = person;
+              const { _id } = person;
               return res.status(200).json({
                 person: { email, name, _id },
-                token: createToken({ email, name, _id })
+                token: createToken({ email, name, _id }),
               });
             }
 
@@ -26,15 +26,25 @@ const fbConnectionRoute = (req, res) => {
               _id: new mongoose.Types.ObjectId(),
               active: true,
               name,
-              email
+              email,
             });
 
-            newPerson.save().then(({ _doc: { email, name, _id } }) => {
-              return res.status(200).json({
-                person: { email, name, _id },
-                token: createToken({ email, name, _id })
-              });
-            });
+            return newPerson
+              .save()
+              .then(
+                ({
+                  _doc: { email: newPersonEmail, name: newPersonName, _id },
+                }) => {
+                  return res.status(200).json({
+                    person: { email: newPersonEmail, name: newPersonName, _id },
+                    token: createToken({
+                      email: newPersonEmail,
+                      name: newPersonName,
+                      _id,
+                    }),
+                  });
+                },
+              );
           })
           .catch(err => res.status(500).json({ ...SERVER_ERROR, err }));
       }

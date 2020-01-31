@@ -19,5 +19,5 @@ module.exports = {
   passwordResetRoute,
   fbConnectionRoute,
   googleConnectionRoute,
-  fileUploadRoute
+  fileUploadRoute,
 };

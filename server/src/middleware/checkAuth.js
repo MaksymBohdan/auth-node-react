@@ -9,7 +9,7 @@ const checkAuth = (req, res, next) => {
 
     req.body.personData = decoded;
 
-    next();
+    return next();
   });
 };
 

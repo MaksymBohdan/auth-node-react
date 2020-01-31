@@ -2,7 +2,7 @@ const Person = require('../models/person');
 const {
   ACCOUNT_NOT_EXIST,
   SERVER_ERROR,
-  PASSWORD_RESET_MSG
+  PASSWORD_RESET_MSG,
 } = require('../helpers/messages');
 const { sendPasswordForgotMail } = require('../utils/mailUtils');
 const { createToken } = require('../utils/tokenUtils');
@@ -22,7 +22,7 @@ const passwordForgotRoute = (req, res) => {
         .then(() => res.status(200).json(PASSWORD_RESET_MSG))
         .catch(err => res.status(500).json({ ...SERVER_ERROR, err }));
 
-      sendPasswordForgotMail({ email, name, passwordResetToken });
+      return sendPasswordForgotMail({ email, name, passwordResetToken });
     })
     .catch(err => res.status(500).json({ ...SERVER_ERROR, err }));
 };

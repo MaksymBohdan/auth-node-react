@@ -7,7 +7,7 @@ import {
   StyledButton,
   StyledInlineErrorMessage,
   StyledRow,
-  LinkArea
+  LinkArea,
 } from '../styles';
 import SocialSection from '../../Social/SocialSection';
 
@@ -45,7 +45,7 @@ const SignUpView = ({ isSubmitting }) => (
     <StyledButton type="submit" disabled={isSubmitting}>
       {isSubmitting ? `Submiting...` : `Submit`}
     </StyledButton>
-    <LinkArea to="/signin">I've got an account already</LinkArea>
+    <LinkArea to="/signin">I have got an account already</LinkArea>
     <SocialSection />
   </StyledForm>
 );
