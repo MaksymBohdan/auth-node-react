@@ -12,7 +12,7 @@ const signUpValidation = Yup.object().shape({
     .required('Required'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
-    .required('Required')
+    .required('Required'),
 });
 
 const signInValidation = Yup.object().shape({
@@ -21,13 +21,13 @@ const signInValidation = Yup.object().shape({
     .required('Required'),
   password: Yup.string()
     .min(6, 'Your password is too short')
-    .required('Required')
+    .required('Required'),
 });
 
 const mailValidation = Yup.object().shape({
   email: Yup.string()
     .email('Invalid email')
-    .required('Required')
+    .required('Required'),
 });
 
 const resetPasswordValidation = Yup.object().shape({
@@ -36,8 +36,12 @@ const resetPasswordValidation = Yup.object().shape({
     .required('Required'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
-    .required('Required')
+    .required('Required'),
 });
 
-
-export { signUpValidation, signInValidation, mailValidation, resetPasswordValidation };
+export {
+  signUpValidation,
+  signInValidation,
+  mailValidation,
+  resetPasswordValidation,
+};

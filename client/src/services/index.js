@@ -23,7 +23,7 @@ const passwordReset = password =>
 const personDelete = token =>
   axios
     .post('/delete', {
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     })
     .then(({ data }) => data.person);
 
@@ -46,5 +46,5 @@ export {
   passwordReset,
   connectWithFb,
   connectWithGoogle,
-  uploadFile
+  uploadFile,
 };

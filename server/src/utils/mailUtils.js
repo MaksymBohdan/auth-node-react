@@ -1,7 +1,7 @@
 const sgMail = require('@sendgrid/mail');
 const {
   emailVerifyTemplate,
-  passwordForgotTemplate
+  passwordForgotTemplate,
 } = require('../helpers/mailTemplates');
 const confiq = require('../../config');
 
@@ -23,5 +23,5 @@ const sendPasswordForgotMail = ({ email, name, passwordResetToken }) => {
 
 module.exports = {
   sendVerificationMail,
-  sendPasswordForgotMail
+  sendPasswordForgotMail,
 };

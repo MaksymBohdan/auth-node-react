@@ -4,8 +4,8 @@ const mailGenerator = new MailGen({
   theme: 'salted',
   product: {
     name: 'Authapp',
-    link: 'https://localhost:3000/'
-  }
+    link: 'https://localhost:3000/',
+  },
 });
 
 const emailVerifyTemplate = (email, name, temporaryToken) => {
@@ -18,17 +18,17 @@ const emailVerifyTemplate = (email, name, temporaryToken) => {
         button: {
           color: '#33b5e5',
           text: 'Verify account',
-          link: `https://localhost:3000/verify/${temporaryToken}`
-        }
-      }
-    }
+          link: `https://localhost:3000/verify/${temporaryToken}`,
+        },
+      },
+    },
   };
 
   return {
     to: email,
     from: 'noreply@authapp.com',
     subject: 'Verification email',
-    html: mailGenerator.generate(htmlTemplate)
+    html: mailGenerator.generate(htmlTemplate),
   };
 };
 
@@ -44,17 +44,17 @@ const passwordForgotTemplate = (email, name, passwordResetToken) => {
         button: {
           color: '#33b5e5',
           text: 'Reset password',
-          link: `https://localhost:3000/password-reset/${passwordResetToken}`
-        }
-      }
-    }
+          link: `https://localhost:3000/password-reset/${passwordResetToken}`,
+        },
+      },
+    },
   };
 
   return {
     to: email,
     from: 'noreply@authapp.com',
     subject: 'Forgot password',
-    html: mailGenerator.generate(htmlTemplate)
+    html: mailGenerator.generate(htmlTemplate),
   };
 };
 

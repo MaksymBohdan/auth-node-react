@@ -6,14 +6,12 @@ export const UploadContext = createContext();
 class UploadContextProvider extends Component {
   state = {
     file: null,
-    imageUrl: '#'
+    imageUrl: '#',
   };
-
-  static Consumer = UploadContext.Consumer;
 
   handleSelectedFile = e => {
     this.setState({
-      file: e.target.files[0]
+      file: e.target.files[0],
     });
   };
 
@@ -25,24 +23,29 @@ class UploadContextProvider extends Component {
     formData.append('personId', id);
 
     uploadFile(formData)
-      .then(({ person: { imageUrl } }) =>
-        this.setState({ imageUrl }, () => console.log(this.state.imageUrl))
-      )
-      .catch(err => console.log(err));
+      .then(({ person: { imageUrl } }) => this.setState({ imageUrl }))
+      .catch(err => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      });
   };
+
+  static Consumer = UploadContext.Consumer;
 
   render() {
     const { file, imageUrl } = this.state;
+    const { children } = this.props;
+
     return (
       <UploadContext.Provider
         value={{
           file,
           imageUrl,
           handleFileUpload: this.handleFileUpload,
-          handleSelectedFile: this.handleSelectedFile
+          handleSelectedFile: this.handleSelectedFile,
         }}
       >
-        {this.props.children}
+        {children}
       </UploadContext.Provider>
     );
   }

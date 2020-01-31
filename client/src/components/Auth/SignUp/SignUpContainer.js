@@ -9,7 +9,7 @@ const initialFormValues = {
   name: '',
   email: '',
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
 };
 
 const SignUp = () => (

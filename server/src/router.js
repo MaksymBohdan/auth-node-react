@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 const {
   signupRoute,
@@ -10,8 +11,8 @@ const {
   passwordResetRoute,
   fbConnectionRoute,
   googleConnectionRoute,
-  fileUploadRoute
-} = require('./routes');
+  fileUploadRoute,
+} = require('./controllers');
 const checkAuth = require('./middleware/checkAuth');
 const uploadMiddleware = require('./middleware/uploads');
 

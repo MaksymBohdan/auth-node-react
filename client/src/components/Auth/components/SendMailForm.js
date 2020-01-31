@@ -9,7 +9,7 @@ import {
   StyledField,
   StyledInlineErrorMessage,
   FormContent,
-  PageWrapper
+  PageWrapper,
 } from '../styles';
 
 const SendMailForm = ({ title, content, onSubmit }) => {

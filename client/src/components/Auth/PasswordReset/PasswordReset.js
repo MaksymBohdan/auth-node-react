@@ -6,7 +6,7 @@ import {
   PASSWORD_RESET_SUCCESS_CONTENT,
   PASSWORD_RESET_SUCCESS_TITLE,
   PASSWORD_RESET_FORM_TITLE,
-  PASSWORD_RESET_FORM_CONTENT
+  PASSWORD_RESET_FORM_CONTENT,
 } from '../../../helpers/authConstants';
 
 const PasswordConfirm = ({ match: { params } }) => (

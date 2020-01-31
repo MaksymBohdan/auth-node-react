@@ -3,7 +3,7 @@ import AuthContext from '../../../contexts/auth';
 import SendMailForm from '../components/SendMailForm';
 import {
   PASSWORD_FORGOT_CONTENT,
-  PASSWORD_FORGOT_TITLE
+  PASSWORD_FORGOT_TITLE,
 } from '../../../helpers/authConstants';
 
 const PasswordForgot = () => (

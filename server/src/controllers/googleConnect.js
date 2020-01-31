@@ -15,10 +15,10 @@ const googleConnectionRoute = (req, res) => {
 
       Person.findOne({ email }).then(person => {
         if (person) {
-          const { email, name, _id } = person;
+          const { _id } = person;
           return res.status(200).json({
             person: { email, name, _id },
-            token: createToken({ email, name, _id })
+            token: createToken({ email, name, _id }),
           });
         }
 
@@ -26,17 +26,19 @@ const googleConnectionRoute = (req, res) => {
           _id: new mongoose.Types.ObjectId(),
           active: true,
           name,
-          email
+          email,
         });
 
-        newPerson
+        return newPerson
           .save()
-          .then(({ _doc: { email, name, _id } }) => {
-            return res.status(200).json({
-              person: { email, name, _id },
-              token: createToken({ email, name, _id })
-            });
-          })
+          .then(
+            ({ _doc: { email: newPersonEmail, name: newPersonName, _id } }) => {
+              return res.status(200).json({
+                person: { email: newPersonEmail, name: newPersonName, _id },
+                token: createToken({ email, name, _id }),
+              });
+            },
+          )
           .catch(err => res.status(500).json({ ...SERVER_ERROR, err }));
       });
     })

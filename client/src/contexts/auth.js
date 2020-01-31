@@ -8,12 +8,12 @@ import {
   passwordForgot,
   passwordReset,
   connectWithFb,
-  connectWithGoogle
+  connectWithGoogle,
 } from '../services';
 import {
   saveToStorage,
   getFromStorage,
-  clearStorage
+  clearStorage,
 } from '../utils/localStorageUtils';
 import { PERSON, TOKEN } from '../helpers/localStorageConstans';
 import { NotificationContext } from './notifications';
@@ -25,14 +25,12 @@ class AuthContextProvider extends Component {
     person: getFromStorage(PERSON, null),
     token: getFromStorage(TOKEN, null),
     isVerified: false,
-    isPasswordReset: false
+    isPasswordReset: false,
   };
 
-  static Consumer = AuthContext.Consumer;
-
-  static contextType = NotificationContext;
-
   onSignIn = (credentials, setSubmitting) => {
+    const { handleShowNotification } = this.context;
+
     signIn(credentials)
       .then(({ person, token }) => {
         saveToStorage(TOKEN, token);
@@ -41,17 +39,17 @@ class AuthContextProvider extends Component {
         this.setState({ person, token });
       })
       .catch(({ response }) => {
-        this.context.handleShowNotification(response.data);
+        handleShowNotification(response.data);
         setSubmitting(false);
       });
   };
 
   onSignUp = (credentials, setSubmitting) => {
+    const { handleShowNotification } = this.context;
+
     signUp(credentials)
-      .then(response => this.context.handleShowNotification(response))
-      .catch(({ response }) =>
-        this.context.handleShowNotification(response.data)
-      )
+      .then(response => handleShowNotification(response))
+      .catch(({ response }) => handleShowNotification(response.data))
       .finally(() => setSubmitting(false));
   };
 
@@ -61,12 +59,15 @@ class AuthContextProvider extends Component {
   };
 
   onPersonDelete = () => {
-    personDelete(this.state.token)
+    const { token } = this.state;
+    const { handleShowNotification } = this.context;
+
+    personDelete(token)
       .then(person => {
         if (!person) this.clearAuthData();
       })
       .catch(({ response }) => {
-        this.context.handleShowNotification(response.data);
+        handleShowNotification(response.data);
       });
   };
 
@@ -77,33 +78,33 @@ class AuthContextProvider extends Component {
   };
 
   resendVerificationToken = (email, setSubmitting) => {
+    const { handleShowNotification } = this.context;
+
     resendToken(email)
-      .then(response => this.context.handleShowNotification(response))
-      .catch(({ response }) =>
-        this.context.handleShowNotification(response.data)
-      )
+      .then(response => handleShowNotification(response))
+      .catch(({ response }) => handleShowNotification(response.data))
       .finally(() => {
         setSubmitting(false);
       });
   };
 
   onPasswordForgot = (email, setSubmitting) => {
+    const { handleShowNotification } = this.context;
+
     passwordForgot(email)
-      .then(response => this.context.handleShowNotification(response))
-      .catch(({ response }) =>
-        this.context.handleShowNotification(response.data)
-      )
+      .then(response => handleShowNotification(response))
+      .catch(({ response }) => handleShowNotification(response.data))
       .finally(() => {
         setSubmitting(false);
       });
   };
 
   onPasswordReset = (credentials, setSubmitting) => {
+    const { handleShowNotification } = this.context;
+
     passwordReset(credentials)
       .then(() => this.setState({ isPasswordReset: true }))
-      .catch(({ response }) =>
-        this.context.handleShowNotification(response.data)
-      )
+      .catch(({ response }) => handleShowNotification(response.data))
       .finally(() => {
         setSubmitting(false);
       });
@@ -111,6 +112,7 @@ class AuthContextProvider extends Component {
 
   onConnectWithFb = data => {
     const { accessToken, userID } = data;
+    const { handleShowNotification } = this.context;
 
     connectWithFb({ accessToken, userID })
       .then(({ person, token }) => {
@@ -120,12 +122,13 @@ class AuthContextProvider extends Component {
         this.setState({ person, token });
       })
       .catch(({ response }) => {
-        this.context.handleShowNotification(response.data);
+        handleShowNotification(response.data);
       });
   };
 
   onConnectWithGoogle = data => {
     const { tokenId } = data;
+    const { handleShowNotification } = this.context;
 
     connectWithGoogle({ tokenId })
       .then(({ person, token }) => {
@@ -134,13 +137,16 @@ class AuthContextProvider extends Component {
 
         this.setState({ person, token });
       })
-      .catch(({ response }) => {
-        this.context.handleShowNotification(response.data);
-      });
+      .catch(({ response }) => handleShowNotification(response.data));
   };
+
+  static contextType = NotificationContext;
+
+  static Consumer = AuthContext.Consumer;
 
   render() {
     const { person, isVerified, isPasswordReset } = this.state;
+    const { children } = this.props;
 
     return (
       <AuthContext.Provider
@@ -157,10 +163,10 @@ class AuthContextProvider extends Component {
           onVerify: this.onAccountVerify,
           onTokenResend: this.resendVerificationToken,
           onPasswordForgot: this.onPasswordForgot,
-          onPasswordReset: this.onPasswordReset
+          onPasswordReset: this.onPasswordReset,
         }}
       >
-        {this.props.children}
+        {children}
       </AuthContext.Provider>
     );
   }
