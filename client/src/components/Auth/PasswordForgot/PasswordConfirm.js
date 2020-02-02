@@ -1,6 +1,6 @@
 import React from 'react';
 import AuthContext from '../../../contexts/auth';
-import PasswordResetForm from './PasswordResetForm';
+import PasswordResetForm from '../components/PasswordResetForm';
 import SignInRedirect from '../components/SignInRedirect';
 import {
   PASSWORD_RESET_SUCCESS_CONTENT,

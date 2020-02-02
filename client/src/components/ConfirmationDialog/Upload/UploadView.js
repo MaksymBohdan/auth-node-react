@@ -5,7 +5,8 @@ import {
   Dialog,
   Overlay,
   ConfirmButton,
-} from './styles';
+  ConfirmContent,
+} from '../styles';
 
 const UploadDialogView = ({
   isOpen,
@@ -21,8 +22,8 @@ const UploadDialogView = ({
     {isOpen && (
       <Overlay>
         <Dialog>
-          <h2>Upload</h2>
-          <span>Please choose the file for uploading</span>
+          <ConfirmContent>Upload</ConfirmContent>
+          <ConfirmContent>Please choose the file for uploading</ConfirmContent>
           <ControlArea>
             <>
               <input type="file" onChange={handleSelectedFile} />

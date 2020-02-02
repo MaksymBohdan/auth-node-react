@@ -1,7 +1,7 @@
 import React from 'react';
-import ConfirmationCmp from './ConfirmationCmp';
+import ConfirmationCmp from '../ConfirmationCmp';
 import UploadView from './UploadView';
-import UploadContext from '../../contexts/upload';
+import UploadContext from '../../../contexts/upload';
 
 const UploadDialog = props => (
   <UploadContext.Consumer>

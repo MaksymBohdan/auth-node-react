@@ -1,40 +1,21 @@
 import axios from 'axios';
+import * as url from '../helpers/urlConstants';
 
 axios.defaults.baseURL = 'http://localhost:4040';
 
-const signUp = credentials =>
-  axios.post('/signup', credentials).then(({ data }) => data);
+const fetcher = (url, body) => axios.post(url, body).then(({ data }) => data);
 
-const signIn = credentials =>
-  axios.post('/signin', credentials).then(({ data }) => data);
-
-const verifyAccount = token =>
-  axios.post('/verify', token).then(({ data }) => data);
-
-const resendToken = email =>
-  axios.post('/resend', email).then(({ data }) => data);
-
-const passwordForgot = email =>
-  axios.post('/password-forgot', email).then(({ data }) => data);
-
-const passwordReset = password =>
-  axios.post('/password-reset', password).then(({ data }) => data);
-
+const signIn = credentials => fetcher(url.SIGN_IN, credentials);
+const signUp = credentials => fetcher(url.SIGN_UP, credentials);
+const verifyAccount = token => fetcher(url.VERIFY, token);
+const resendToken = email => fetcher(url.RESEND, email);
+const passwordForgot = email => fetcher(url.PASS_FORGOT, email);
+const passwordReset = password => fetcher(url.PASS_RESET, password);
+const connectWithFb = credentials => fetcher(url.FB_CONNECT, credentials);
+const connectWithGoogle = credentials => fetcher(url.G_CONNECT, credentials);
+const uploadFile = formData => fetcher(url.UPLOAD, formData);
 const personDelete = token =>
-  axios
-    .post('/delete', {
-      Authorization: `Bearer ${token}`,
-    })
-    .then(({ data }) => data.person);
-
-const connectWithFb = credentials =>
-  axios.post('/fb-connect', credentials).then(({ data }) => data);
-
-const connectWithGoogle = credentials =>
-  axios.post('/google-connect', credentials).then(({ data }) => data);
-
-const uploadFile = (formData, person) =>
-  axios.post('/upload-file', formData, person).then(({ data }) => data);
+  fetcher(url.DELETE, { Authorization: `Bearer ${token}` });
 
 export {
   signUp,

@@ -2,8 +2,8 @@ import React from 'react';
 import AuthContext from '../../contexts/auth';
 import { MainContainer, ControlPanel, StyledButton } from './styles';
 import UploadContext from '../../contexts/upload';
-import DeleteDialog from '../ConfirmationDialog/DeleteDialog';
-import UploadDialog from '../ConfirmationDialog/UploadDialog';
+import DeleteDialog from '../ConfirmationDialog/Delete/DeleteDialog';
+import UploadDialog from '../ConfirmationDialog/Upload/UploadDialog';
 import logo from '../../assets/small.jpg';
 
 const Main = () => (

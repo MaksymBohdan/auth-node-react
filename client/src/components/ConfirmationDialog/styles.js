@@ -45,5 +45,15 @@ const ConfirmButton = styled(StyledButton)`
   background-color: ${props => (props.disabled ? '#dddddd' : null)};
   color: ${props => (props.disabled ? 'black' : null)};
 `;
+const ConfirmContent = styled.p`
+  padding: 10px;
+`;
 
-export { StyledButton, ControlArea, Dialog, Overlay, ConfirmButton };
+export {
+  StyledButton,
+  ControlArea,
+  Dialog,
+  Overlay,
+  ConfirmButton,
+  ConfirmContent,
+};
