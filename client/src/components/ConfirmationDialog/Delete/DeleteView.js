@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyledButton, ControlArea, Dialog, Overlay } from './styles';
+import {
+  StyledButton,
+  ControlArea,
+  Dialog,
+  Overlay,
+  ConfirmContent,
+} from '../styles';
 
 const DeleteView = ({ isOpen, show, hide, confirm, children }) => (
   <>
@@ -7,8 +13,10 @@ const DeleteView = ({ isOpen, show, hide, confirm, children }) => (
     {isOpen && (
       <Overlay>
         <Dialog>
-          <h2>Delete</h2>
-          <span>Are you sure you want to delete this person?</span>
+          <ConfirmContent>Delete</ConfirmContent>
+          <ConfirmContent>
+            Are you sure you want to delete this person?
+          </ConfirmContent>
           <ControlArea>
             <StyledButton color="red" onClick={hide}>
               Cancel

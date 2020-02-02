@@ -9,7 +9,7 @@ import {
   StyledRow,
   LinkArea,
 } from '../styles';
-import SocialSection from '../../Social/SocialSection';
+import SocialSection from '../Social/SocialSection';
 
 const SignInView = ({ isSubmitting }) => (
   <StyledForm>

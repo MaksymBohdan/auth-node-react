@@ -1,20 +1,15 @@
 {
   "extends": [
     "eslint:recommended",
-    "airbnb",
+    "airbnb-base",
     "plugin:import/errors",
-    "plugin:react/recommended",
     "prettier",
-    "plugin:prettier/recommended",
-    "prettier/react"
+    "plugin:prettier/recommended"
   ],
-  "plugins": ["react", "import", "prettier"],
+  "plugins": ["import", "prettier"],
   "parserOptions": {
     "ecmaVersion": 2018,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
+    "sourceType": "module"
   },
   "env": {
     "es6": true,
@@ -23,15 +18,9 @@
     "jest": true
   },
   "rules": {
-    "react/prop-types": 0,
     "no-console": 1,
     "linebreak-style": ["error", "unix"],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "react/state-in-constructor": 0,
-    "react/static-property-placement": 0,
-    "react/jsx-props-no-spreading": 0,
     "import/no-named-as-default": 0
-
   },
   "globals": {
     "window": true,

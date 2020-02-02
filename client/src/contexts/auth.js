@@ -1,15 +1,5 @@
 import React, { Component, createContext } from 'react';
-import {
-  signUp,
-  signIn,
-  personDelete,
-  verifyAccount,
-  resendToken,
-  passwordForgot,
-  passwordReset,
-  connectWithFb,
-  connectWithGoogle,
-} from '../services';
+import * as api from '../services';
 import {
   saveToStorage,
   getFromStorage,
@@ -31,7 +21,8 @@ class AuthContextProvider extends Component {
   onSignIn = (credentials, setSubmitting) => {
     const { handleShowNotification } = this.context;
 
-    signIn(credentials)
+    api
+      .signIn(credentials)
       .then(({ person, token }) => {
         saveToStorage(TOKEN, token);
         saveToStorage(PERSON, person);
@@ -47,7 +38,8 @@ class AuthContextProvider extends Component {
   onSignUp = (credentials, setSubmitting) => {
     const { handleShowNotification } = this.context;
 
-    signUp(credentials)
+    api
+      .signUp(credentials)
       .then(response => handleShowNotification(response))
       .catch(({ response }) => handleShowNotification(response.data))
       .finally(() => setSubmitting(false));
@@ -62,8 +54,9 @@ class AuthContextProvider extends Component {
     const { token } = this.state;
     const { handleShowNotification } = this.context;
 
-    personDelete(token)
-      .then(person => {
+    api
+      .personDelete(token)
+      .then(({ person }) => {
         if (!person) this.clearAuthData();
       })
       .catch(({ response }) => {
@@ -72,7 +65,8 @@ class AuthContextProvider extends Component {
   };
 
   onAccountVerify = token => {
-    verifyAccount({ token })
+    api
+      .verifyAccount({ token })
       .then(() => this.setState({ isVerified: true }))
       .catch(() => this.setState({ isVerified: false }));
   };
@@ -80,7 +74,8 @@ class AuthContextProvider extends Component {
   resendVerificationToken = (email, setSubmitting) => {
     const { handleShowNotification } = this.context;
 
-    resendToken(email)
+    api
+      .resendToken(email)
       .then(response => handleShowNotification(response))
       .catch(({ response }) => handleShowNotification(response.data))
       .finally(() => {
@@ -91,7 +86,8 @@ class AuthContextProvider extends Component {
   onPasswordForgot = (email, setSubmitting) => {
     const { handleShowNotification } = this.context;
 
-    passwordForgot(email)
+    api
+      .passwordForgot(email)
       .then(response => handleShowNotification(response))
       .catch(({ response }) => handleShowNotification(response.data))
       .finally(() => {
@@ -102,7 +98,8 @@ class AuthContextProvider extends Component {
   onPasswordReset = (credentials, setSubmitting) => {
     const { handleShowNotification } = this.context;
 
-    passwordReset(credentials)
+    api
+      .passwordReset(credentials)
       .then(() => this.setState({ isPasswordReset: true }))
       .catch(({ response }) => handleShowNotification(response.data))
       .finally(() => {
@@ -114,7 +111,8 @@ class AuthContextProvider extends Component {
     const { accessToken, userID } = data;
     const { handleShowNotification } = this.context;
 
-    connectWithFb({ accessToken, userID })
+    api
+      .connectWithFb({ accessToken, userID })
       .then(({ person, token }) => {
         saveToStorage(TOKEN, token);
         saveToStorage(PERSON, person);
@@ -130,7 +128,8 @@ class AuthContextProvider extends Component {
     const { tokenId } = data;
     const { handleShowNotification } = this.context;
 
-    connectWithGoogle({ tokenId })
+    api
+      .connectWithGoogle({ tokenId })
       .then(({ person, token }) => {
         saveToStorage(TOKEN, token);
         saveToStorage(PERSON, person);

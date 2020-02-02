@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const axios = require('axios');
 const mongoose = require('mongoose');
 const confiq = require('../../config');
 const Person = require('../models/person');
@@ -8,9 +8,9 @@ const { SERVER_ERROR } = require('../helpers/messages');
 const googleConnectionRoute = (req, res) => {
   const { tokenId } = req.body;
 
-  fetch(`${confiq.googleApiUrl}${tokenId}`)
-    .then(data => data.json())
-    .then(data => {
+  axios
+    .post(`${confiq.googleApiUrl}${tokenId}`)
+    .then(({ data }) => {
       const { email, name } = data;
 
       Person.findOne({ email }).then(person => {

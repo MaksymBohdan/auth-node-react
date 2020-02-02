@@ -1,10 +1,11 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { Reset } from 'styled-reset';
 import Main from './Main/Main';
 import SignIn from './Auth/SignIn/SignInContainer';
 import SignUp from './Auth/SignUp/SignUpContainer';
-import PasswordForgot from './Auth/PasswordReset/PasswordForgot';
-import PasswordReset from './Auth/PasswordReset/PasswordReset';
+import PasswordForgot from './Auth/PasswordForgot/PasswordForgot';
+import PasswordReset from './Auth/PasswordForgot/PasswordConfirm';
 import Verification from './Auth/Verification/VerificationContainer';
 import AuthContext from '../contexts/auth';
 import NotificationContext from '../contexts/notifications';
@@ -15,6 +16,7 @@ const App = () => (
   <NotificationContext>
     <AuthContext>
       <UploadContext>
+        <Reset />
         <AuthContext.Consumer>
           {({ person }) => (
             <Switch>

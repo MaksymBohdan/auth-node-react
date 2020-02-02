@@ -1,6 +1,6 @@
 import React from 'react';
 import GoogleLogin from 'react-google-login';
-import AuthContext from '../../contexts/auth';
+import AuthContext from '../../../contexts/auth';
 import { StyledButtonG } from './styles';
 
 const GoogleButton = () => (

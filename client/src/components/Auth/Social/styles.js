@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { StyledButton } from '../Auth/styles';
+import { StyledButton } from '../styles';
 
 const SocialSection = styled.div`
   display: flex;

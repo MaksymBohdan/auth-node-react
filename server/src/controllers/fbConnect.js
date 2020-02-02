@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const axios = require('axios');
 const mongoose = require('mongoose');
 const Person = require('../models/person');
 const { createToken } = require('../utils/tokenUtils');
@@ -8,9 +8,12 @@ const confiq = require('../../config');
 const fbConnectionRoute = (req, res) => {
   const { accessToken, userID } = req.body;
 
-  fetch(`${confiq.fbGraphUrlMain}${accessToken}${confiq.fbGraphUrlRestParams}`)
-    .then(data => data.json())
-    .then(({ id, name, email }) => {
+  axios
+    .post(
+      `${confiq.fbGraphUrlMain}${accessToken}${confiq.fbGraphUrlRestParams}`,
+    )
+    .then(({ data }) => {
+      const { id, name, email } = data;
       if (id === userID) {
         Person.findOne({ email })
           .then(person => {

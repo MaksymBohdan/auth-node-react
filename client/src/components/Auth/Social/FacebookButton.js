@@ -1,6 +1,6 @@
 import React from 'react';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import AuthContext from '../../contexts/auth';
+import AuthContext from '../../../contexts/auth';
 import { StyledButtonFb } from './styles';
 
 const FacebookButton = () => (

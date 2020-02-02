@@ -1,5 +1,5 @@
 import React from 'react';
-import ConfirmationCmp from './ConfirmationCmp';
+import ConfirmationCmp from '../ConfirmationCmp';
 import DeleteView from './DeleteView';
 
 const DeleteDialog = props => (
