@@ -1,40 +1,27 @@
-import { Component } from 'react';
+import { useState } from 'react';
 
-class UploadDialogContainer extends Component {
-  state = {
-    isOpen: false,
-    callback: null,
+const UploadDialogContainer = ({ children }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [callback, setCallback] = useState(null);
+
+  const hide = () => setIsOpen(false);
+
+  const show = cb => () => {
+    setIsOpen(true);
+    setCallback(() => cb);
   };
 
-  hide = () => this.setState({ isOpen: false });
-
-  show = callback => event => {
-    const mockedEvent = {
-      ...event,
-      target: { ...event.target, value: event.target.value },
-    };
-
-    this.setState({ isOpen: true, callback: () => callback(mockedEvent) });
+  const confirm = (...args) => {
+    callback(args);
+    hide();
   };
 
-  confirm = () => {
-    const { callback } = this.state;
-
-    callback();
-    this.hide();
-  };
-
-  render() {
-    const { isOpen } = this.state;
-    const { children } = this.props;
-
-    return children({
-      isOpen,
-      show: this.show,
-      hide: this.hide,
-      confirm: this.confirm,
-    });
-  }
-}
+  return children({
+    isOpen,
+    show,
+    hide,
+    confirm,
+  });
+};
 
 export default UploadDialogContainer;

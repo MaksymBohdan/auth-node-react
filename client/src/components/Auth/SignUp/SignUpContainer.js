@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Formik } from 'formik';
-import AuthContext from '../../../contexts/auth';
+import { AuthContext } from '../../../contexts/auth';
 import SignUpView from './SignUpView';
 import { signUpValidation } from '../../../helpers/formValidators';
 import { PageWrapper } from '../styles';
@@ -12,22 +12,20 @@ const initialFormValues = {
   confirmPassword: '',
 };
 
-const SignUp = () => (
-  <AuthContext.Consumer>
-    {({ onSignUp }) => (
-      <PageWrapper>
-        <Formik
-          initialValues={initialFormValues}
-          onSubmit={(value, { setSubmitting }) =>
-            onSignUp(value, setSubmitting)
-          }
-          validationSchema={signUpValidation}
-        >
-          {({ isSubmitting }) => <SignUpView isSubmitting={isSubmitting} />}
-        </Formik>
-      </PageWrapper>
-    )}
-  </AuthContext.Consumer>
-);
+const SignUp = () => {
+  const { onSignUp } = useContext(AuthContext);
+
+  return (
+    <PageWrapper>
+      <Formik
+        initialValues={initialFormValues}
+        onSubmit={(value, { setSubmitting }) => onSignUp(value, setSubmitting)}
+        validationSchema={signUpValidation}
+      >
+        {({ isSubmitting }) => <SignUpView isSubmitting={isSubmitting} />}
+      </Formik>
+    </PageWrapper>
+  );
+};
 
 export default SignUp;
