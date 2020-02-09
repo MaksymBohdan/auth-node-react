@@ -1,26 +1,17 @@
-import React, { Component } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { AuthContext } from '../../../contexts/auth';
 import VerificationFailed from './VerificationViewFailed';
 import VerificationSuccess from './VerificationViewSuccess';
 
-class VerificationContainer extends Component {
-  componentDidMount() {
-    const {
-      match: { params },
-    } = this.props;
+const VerificationContainer = ({ match: { params } }) => {
+  const { isVerified, onAccountVerify } = useContext(AuthContext);
 
-    const { onVerify } = this.context;
+  useEffect(() => {
+    onAccountVerify(params.token);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    onVerify(params.token);
-  }
-
-  static contextType = AuthContext;
-
-  render() {
-    const { isVerified } = this.context;
-
-    return isVerified ? <VerificationSuccess /> : <VerificationFailed />;
-  }
-}
+  return isVerified ? <VerificationSuccess /> : <VerificationFailed />;
+};
 
 export default VerificationContainer;

@@ -1,62 +1,39 @@
-import React, { Component, createContext } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import Notifications from '../components/Notifications/Notifications';
 
-export const NotificationContext = createContext();
+const NotificationContext = createContext();
 
-class NotificationsContextProvider extends Component {
-  state = {
-    notifications: [],
-  };
+const NotificationProvider = ({ children }) => {
+  const [notifications, setNotification] = useState([]);
+  const [currentId, setCurrentId] = useState(null);
 
-  handleShowNotification = notification => {
+  const handleShowNotification = notification => {
     const id = Date.now();
+    const newNotification = { id, ...notification };
 
-    this.setState(
-      prevState => ({
-        notifications: [
-          ...prevState.notifications,
-          {
-            id,
-            ...notification,
-          },
-        ],
-      }),
-      () => {
-        this.handleClearNotification(id);
-      },
-    );
+    setCurrentId(id);
+    setNotification(prevNtf => [...prevNtf, newNotification]);
   };
 
-  handleClearNotification = id => {
-    const { notifications } = this.state;
-
+  useEffect(() => {
     setTimeout(() => {
-      this.setState({
-        notifications: notifications.filter(note => note.id !== id),
-      });
+      setNotification(prevNtf => prevNtf.filter(note => note.id !== currentId));
     }, 3000);
-  };
+  }, [notifications, currentId]);
 
-  static Consumer = NotificationContext.Consumer;
+  return (
+    <NotificationContext.Provider
+      value={{
+        handleShowNotification,
+      }}
+    >
+      {notifications.length > 0 && (
+        <Notifications notifications={notifications} />
+      )}
 
-  render() {
-    const { notifications } = this.state;
-    const { children } = this.props;
+      {children}
+    </NotificationContext.Provider>
+  );
+};
 
-    return (
-      <NotificationContext.Provider
-        value={{
-          handleShowNotification: this.handleShowNotification,
-        }}
-      >
-        {notifications.length > 0 && (
-          <Notifications notifications={notifications} />
-        )}
-
-        {children}
-      </NotificationContext.Provider>
-    );
-  }
-}
-
-export default NotificationsContextProvider;
+export { NotificationProvider, NotificationContext };

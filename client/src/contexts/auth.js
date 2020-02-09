@@ -1,4 +1,4 @@
-import React, { Component, createContext } from 'react';
+import React, { createContext, useState, useContext } from 'react';
 import * as api from '../services';
 import {
   saveToStorage,
@@ -8,36 +8,39 @@ import {
 import { PERSON, TOKEN } from '../helpers/localStorageConstans';
 import { NotificationContext } from './notifications';
 
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
-class AuthContextProvider extends Component {
-  state = {
-    person: getFromStorage(PERSON, null),
-    token: getFromStorage(TOKEN, null),
-    isVerified: false,
-    isPasswordReset: false,
+const AuthProvider = ({ children }) => {
+  const { handleShowNotification } = useContext(NotificationContext);
+
+  /*
+   ** BASIC AUTHORIZATION
+   */
+  const [currentPerson, setCurrentPerson] = useState(
+    getFromStorage(PERSON, null),
+  );
+
+  const [currentToken, setCurrentToken] = useState(getFromStorage(TOKEN, null));
+
+  const setUpCurrentUser = (personToSet, tokenToSet) => {
+    saveToStorage(TOKEN, tokenToSet);
+    saveToStorage(PERSON, personToSet);
+
+    setCurrentPerson(personToSet);
+    setCurrentToken(tokenToSet);
   };
 
-  onSignIn = (credentials, setSubmitting) => {
-    const { handleShowNotification } = this.context;
-
+  const onSignIn = (credentials, setSubmitting) => {
     api
       .signIn(credentials)
-      .then(({ person, token }) => {
-        saveToStorage(TOKEN, token);
-        saveToStorage(PERSON, person);
-
-        this.setState({ person, token });
-      })
+      .then(({ person, token }) => setUpCurrentUser(person, token))
       .catch(({ response }) => {
         handleShowNotification(response.data);
         setSubmitting(false);
       });
   };
 
-  onSignUp = (credentials, setSubmitting) => {
-    const { handleShowNotification } = this.context;
-
+  const onSignUp = (credentials, setSubmitting) => {
     api
       .signUp(credentials)
       .then(response => handleShowNotification(response))
@@ -45,35 +48,36 @@ class AuthContextProvider extends Component {
       .finally(() => setSubmitting(false));
   };
 
-  clearAuthData = () => {
+  const onSignOut = () => {
     clearStorage();
-    this.setState({ person: null, token: null });
+    setCurrentPerson(null);
+    setCurrentToken(null);
   };
 
-  onPersonDelete = () => {
-    const { token } = this.state;
-    const { handleShowNotification } = this.context;
-
+  const onPersonDelete = () => {
     api
-      .personDelete(token)
+      .personDelete(currentToken)
       .then(({ person }) => {
-        if (!person) this.clearAuthData();
+        if (!person) onSignOut();
       })
       .catch(({ response }) => {
         handleShowNotification(response.data);
       });
   };
 
-  onAccountVerify = token => {
+  /*
+   ** ACCOUNT VERIFICATION
+   */
+  const [isVerified, setIsVerified] = useState(false);
+
+  const onAccountVerify = token => {
     api
       .verifyAccount({ token })
-      .then(() => this.setState({ isVerified: true }))
-      .catch(() => this.setState({ isVerified: false }));
+      .then(() => setIsVerified(true))
+      .catch(() => setIsVerified(false));
   };
 
-  resendVerificationToken = (email, setSubmitting) => {
-    const { handleShowNotification } = this.context;
-
+  const onTokenResend = (email, setSubmitting) => {
     api
       .resendToken(email)
       .then(response => handleShowNotification(response))
@@ -83,9 +87,12 @@ class AuthContextProvider extends Component {
       });
   };
 
-  onPasswordForgot = (email, setSubmitting) => {
-    const { handleShowNotification } = this.context;
+  /*
+   ** FORGOT PASSWORD
+   */
+  const [isPasswordReset, setIsPasswordReset] = useState(false);
 
+  const onPasswordForgot = (email, setSubmitting) => {
     api
       .passwordForgot(email)
       .then(response => handleShowNotification(response))
@@ -95,80 +102,63 @@ class AuthContextProvider extends Component {
       });
   };
 
-  onPasswordReset = (credentials, setSubmitting) => {
-    const { handleShowNotification } = this.context;
-
+  const onPasswordReset = (credentials, setSubmitting) => {
     api
       .passwordReset(credentials)
-      .then(() => this.setState({ isPasswordReset: true }))
-      .catch(({ response }) => handleShowNotification(response.data))
-      .finally(() => {
+      .then(() => {
         setSubmitting(false);
+        setIsPasswordReset(true);
+      })
+      .catch(({ response }) => {
+        setSubmitting(false);
+        handleShowNotification(response.data);
       });
   };
 
-  onConnectWithFb = data => {
+  /*
+   ** SOCIAL AUTHORIZATION
+   */
+  const onConnectWithFb = data => {
     const { accessToken, userID } = data;
-    const { handleShowNotification } = this.context;
 
     api
       .connectWithFb({ accessToken, userID })
-      .then(({ person, token }) => {
-        saveToStorage(TOKEN, token);
-        saveToStorage(PERSON, person);
-
-        this.setState({ person, token });
-      })
+      .then(({ person, token }) => setUpCurrentUser(person, token))
       .catch(({ response }) => {
         handleShowNotification(response.data);
       });
   };
 
-  onConnectWithGoogle = data => {
+  const onConnectWithGoogle = data => {
     const { tokenId } = data;
-    const { handleShowNotification } = this.context;
 
     api
       .connectWithGoogle({ tokenId })
-      .then(({ person, token }) => {
-        saveToStorage(TOKEN, token);
-        saveToStorage(PERSON, person);
-
-        this.setState({ person, token });
-      })
+      .then(({ person, token }) => setUpCurrentUser(person, token))
       .catch(({ response }) => handleShowNotification(response.data));
   };
 
-  static contextType = NotificationContext;
+  return (
+    <AuthContext.Provider
+      value={{
+        person: currentPerson,
+        onAccountVerify,
+        isVerified,
+        isPasswordReset,
+        onSignUp,
+        onSignIn,
+        onConnectWithFb,
+        onConnectWithGoogle,
+        onSignOut,
+        onPersonDelete,
+        onTokenResend,
+        onPasswordForgot,
+        onPasswordReset,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
-  static Consumer = AuthContext.Consumer;
-
-  render() {
-    const { person, isVerified, isPasswordReset } = this.state;
-    const { children } = this.props;
-
-    return (
-      <AuthContext.Provider
-        value={{
-          person,
-          isVerified,
-          isPasswordReset,
-          onSignUp: this.onSignUp,
-          onSignIn: this.onSignIn,
-          onConnectWithFb: this.onConnectWithFb,
-          onConnectWithGoogle: this.onConnectWithGoogle,
-          onSignOut: this.clearAuthData,
-          onPersonDelete: this.onPersonDelete,
-          onVerify: this.onAccountVerify,
-          onTokenResend: this.resendVerificationToken,
-          onPasswordForgot: this.onPasswordForgot,
-          onPasswordReset: this.onPasswordReset,
-        }}
-      >
-        {children}
-      </AuthContext.Provider>
-    );
-  }
-}
-
-export default AuthContextProvider;
+export { AuthProvider, AuthContext };
